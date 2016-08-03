@@ -17,7 +17,7 @@ CC = clang
 CFLAGS = -arch x86_64 -Os -Wall -Werror -Wextra -Iincs
 LDFLAGS = -Llibs/glfw/src -lglfw3 -framework Cocoa -framework OpenGL -framework OpenCL -framework IOKit -framework CoreVideo
 
-all: $(NAME)
+all: glfw $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(LDFLAGS) $(CFLAGS) -o $(NAME) $^ ; echo $$?

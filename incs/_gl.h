@@ -13,24 +13,24 @@
 #include <limits.h>
 #include <math.h>
 
-typedef struct vec2 {
+typedef struct	vec2 {
 	float		x;
 	float		y;
 }				t_vec2;
 
-typedef struct rgb {
+typedef struct	rgb {
 	float		r;
 	float		g;
 	float		b;
 }				t_rgb;
 
-typedef struct vec3 {
+typedef struct	vec3 {
 	float		x;
 	float		y;
 	float		z;
 }				t_vec3;
 
-typedef struct vec4 {
+typedef struct	vec4 {
 	float		x;
 	float		y;
 	float		z;
@@ -39,22 +39,49 @@ typedef struct vec4 {
 
 typedef struct	s_vertices
 {
-	float x, y, z;
-	float r, g, b;
+	float		x;
+	float		y;
+	float		z;
+	float		r;
+	float		g;
+	float		b;
 }				t_vertices;
+
+typedef struct				s_callback {
+	GLFWerrorfun			error;
+
+	GLFWwindowposfun		windowpos;
+	GLFWwindowsizefun		windowsize;
+	GLFWwindowclosefun		windowclose;
+	GLFWwindowrefreshfun	windowrefresh;
+	GLFWwindowfocusfun		windowfocus;
+	GLFWwindowiconifyfun	windowiconify;
+	GLFWframebuffersizefun	framebuffersize;
+
+	GLFWmousebuttonfun		mousebutton;
+	GLFWcursorposfun		cursorpos;
+	GLFWcursorenterfun		cursorenter;
+	GLFWscrollfun			scroll;
+	GLFWkeyfun				key;
+	GLFWcharfun				uchar;
+	GLFWcharmodsfun			charmods;
+	GLFWdropfun				drop;
+	GLFWjoystickfun			joystick;
+}							t_callback ;
+
+typedef struct				s_fps {
+	char					str[32];
+	double					frames;
+	double					t;
+	double					t1;
+	double					t2;
+	float					dt;
+}							t_fps ;
 
 typedef struct				s_window {
 	GLFWwindow				*w;
 	struct vec2				size;
 	struct vec2				position;
-
-	GLFWwindowposfun		poscb;
-	GLFWwindowsizefun		sizecb;
-	GLFWwindowclosefun		closefun;
-	GLFWwindowrefreshfun	refreshfun;
-	GLFWwindowfocusfun		focuscb;
-	GLFWwindowiconifyfun	iconfun;
-	GLFWframebuffersizefun	fbfun;
 }							t_window;
 
 typedef struct				s_renderer {
@@ -140,8 +167,11 @@ void			key_callback(GLFWwindow* window, int key, int scancode, int action, int m
 void			resize_callback(GLFWwindow *window, int width, int height);
 void			error_callback(int error, const char* description);
 void			scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void			apply_callback(t_window *window, t_callback *callback);
 
 // util.c
 void			version(void);
+void			init_fps(t_fps *fps);
+void			run_fps(t_window *window, t_fps *fps);
 
 #endif

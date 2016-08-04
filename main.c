@@ -41,14 +41,14 @@ t_param params[PARAM_NUMBER] = {
 	// { CREATE_BUFFER_FROM_GL, CL_MEM_READ_WRITE, 2, NULL }
 } ;
 
+extern t_callback g_callback ;
+
 int main()
 {
-	glfwSetErrorCallback(error_callback);
 	t_window *window = init(WIDTH, HEIGHT, "Simple Window");
 	glfwSwapInterval(1);
 
-	glfwSetKeyCallback(window->w, key_callback);
-	glfwSetScrollCallback(window->w, scroll_callback);
+	apply_callback(window, &g_callback);
 
 	t_vec4 *v_pos = new_vertices(VNBR);
 	circle(v_pos, VNBR, 10);
@@ -79,31 +79,12 @@ int main()
 	k->GlobalWorkSize = GlobalWorkSize ;
 	printf("GlobalWorkSize: %zu, %zu, %zu\n", k->GlobalWorkSize[0], k->GlobalWorkSize[1], k->GlobalWorkSize[2]);
 
-	char str[12] ;
-	double frame = 0;
-	double t1, t2;
-	float deltaTime = 0.;
+	t_fps fps ;
+	init_fps(&fps);
 
-	double elapsedTime = glfwGetTime();
-	float lastTime = glfwGetTime();
-
-	t1 = glfwGetTime();
 	while (!glfwWindowShouldClose(window->w))
 	{
-		frame += 1;
-
-		t2 = glfwGetTime();
-		deltaTime = (t2 - t1) * 1000;
-
-		elapsedTime = glfwGetTime();
-		if (elapsedTime - lastTime >= 1.0) {
-			bzero(str, 12);
-
-			sprintf(str, "%.0f", frame);
-			glfwSetWindowTitle(window->w, str);
-			lastTime = elapsedTime;
-			frame = 0;
-		}
+		run_fps(window, &fps);
 
 		struct { double x ; double y ; } moused;
 
@@ -113,15 +94,8 @@ int main()
 		moused.y = (HEIGHT / 2 - moused.y) / HEIGHT;
 
 		t_vec3 mousef = { (float)moused.x, (float)moused.y, 0. };
-		// t_vec3 mousef = { 0., 0., 0.2 };
 
 		float dt = 0.001 ;
-
-		(void)mousef;
-		(void)dt;
-
-		// sprintf(str, "%f", dt);
-		// glfwSetWindowTitle(window->w, str);
 
 		clEnqueueWriteBuffer( c->commands, param_array[2], CL_FALSE, 0, sizeof(float) * 3, &mousef, 0, NULL, NULL );
 		clEnqueueWriteBuffer( c->commands, param_array[1], CL_FALSE, 0, sizeof(float), &dt, 0, NULL, NULL );
@@ -140,7 +114,7 @@ int main()
 		render(window, r);
 		glFinish();
 
-		t1 = glfwGetTime();
+		fps.t1 = glfwGetTime();
 
 	}
 	clReleaseMemObject(param_array[0]);

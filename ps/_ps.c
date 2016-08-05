@@ -29,24 +29,3 @@ t_system		*new_system(t_renderer *r, unsigned int size, t_position_ft f)
 
 	return (ps);
 }
-
-
-void		run_system(t_window *w, t_system *s)
-{
-	unsigned int i;
-
-	i = s->system_number;
-	while (i < s->renderer->vertices_nbr)
-	{
-		(void)w;
-		// translate(w, s, i);
-		i += 1;
-	}
-	glBindBuffer(GL_ARRAY_BUFFER, s->renderer->VBOP);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(t_vec3) * s->renderer->vertices_nbr, s->renderer->v_pos, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, s->renderer->VBOC);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(t_vec3) * s->renderer->vertices_nbr, s->renderer->v_col, GL_STATIC_DRAW);
-
-	// glBufferData(GL_ARRAY_BUFFER, sizeof(t_vec3) * s->renderer->vertices_nbr, s->renderer->v_pos, GL_STATIC_DRAW);
-	// glBufferData(GL_ARRAY_BUFFER, sizeof(t_vec3) * s->renderer->vertices_nbr, s->renderer->v_col, GL_STATIC_DRAW);
-}

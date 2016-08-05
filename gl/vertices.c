@@ -16,14 +16,14 @@ t_vec4	*new_vertices(unsigned int size)
 #include <time.h>
 #include <stdlib.h>
 
-void		line(t_vec4 *v_pos, unsigned int size)
+void		line(t_vec4 *v_pos, unsigned int size, unsigned int grain)
 {
 	srand(time(NULL));
 	for (unsigned int i = 0; i < size; ++i)
 	{
-		v_pos[i].x = -0.5;
+		v_pos[i].x = 0.;
 		v_pos[i].y = ((float)(rand() % (HEIGHT)) / (float)HEIGHT ) ;
-		v_pos[i].z = ((float)(rand() % 10) / (float)10 ) + (rand() % 2) - 1;
+		v_pos[i].z = ((float)(rand() % grain) / (float)grain ) + (rand() % 2) - 1;
 	}
 }
 
@@ -74,20 +74,6 @@ void		inf_cone(t_vec4 *v_pos, unsigned int size, unsigned int grain)
 		v_pos[i].x = rad * sin(2*3.14 * i/VNBR ) ;
 		v_pos[i].y = rad * cos(2*3.14 * i/VNBR ) ;
 		v_pos[i].z = 1 / rad;
-	}
-
-}
-
-void		sphere(t_vec4 *v_pos, unsigned int size)
-{
-	srand(time(NULL));
-	for (unsigned int i = 0; i < size; ++i)
-	{
-		float rad = ((rand() % 1 + 2.) ) / 2;
-
-		v_pos[i].x = rad * sin(2*3.14 * i/VNBR ) ;
-		v_pos[i].y = rad * cos(2*3.14 * i/VNBR ) ;
-		v_pos[i].z = 0. ;
 	}
 
 }

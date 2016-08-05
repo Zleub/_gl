@@ -3,7 +3,8 @@ __kernel void square(
 	global float * dt,
 	global float3 * mouse,
 	global float3 * dPobj,
-	global float3 * dVel
+	global float3 * dVel,
+	global float3 * dCobj
 ) {
 	int Xindex = get_global_id(0);
 	int Yindex = get_global_id(1);
@@ -21,4 +22,6 @@ __kernel void square(
 
 	dVel[index].z += (att - pos) * (dst / 2);
 	dPobj[index].z += vel * (*dt) ;
+	dCobj[index].z = dst ;
+
 }

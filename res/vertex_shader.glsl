@@ -7,5 +7,5 @@ uniform float w;
 void main()
 {
     gl_Position = vec4(vPos, w);
-    color = vPos;
+    color = vCol;
 }

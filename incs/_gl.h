@@ -47,6 +47,9 @@ typedef struct	s_vertices
 	float		b;
 }				t_vertices;
 
+typedef void (*MLXinitearlyfun)() ;
+typedef int (*MLXinitlatefun)() ;
+
 typedef struct				s_callback {
 	GLFWerrorfun			error;
 
@@ -67,6 +70,9 @@ typedef struct				s_callback {
 	GLFWcharmodsfun			charmods;
 	GLFWdropfun				drop;
 	GLFWjoystickfun			joystick;
+
+	MLXinitearlyfun			initearlyfun;
+	MLXinitlatefun			initlatefun;
 }							t_callback ;
 
 typedef struct				s_fps {
@@ -131,9 +137,11 @@ typedef t_vec3 (*t_position_ft)(int nbr);
 #define WIDTH 1024
 #define HEIGHT 1024
 
-#define PARTICULE_WIDTH 1536
-#define PARTICULE_HEIGHT 1536
+#define PARTICULE_WIDTH 16 // * 2
+#define PARTICULE_HEIGHT 16 // * 2
 #define VNBR (PARTICULE_WIDTH * PARTICULE_HEIGHT)
+
+extern t_callback g_callback ;
 
 // window.c
 t_window		*init(int size_x, int size_y, char *title);
@@ -141,10 +149,9 @@ t_window		*new_window(int size_x, int size_y, char *title);
 
 // vertices.c
 t_vec4			*new_vertices(unsigned int size);
-void			line(t_vec4 *vertices, unsigned int size);
+void			line(t_vec4 *vertices, unsigned int size, unsigned int grain);
 void			cube(t_vec4 *vertices, unsigned int size, unsigned int grain);
 void			circle(t_vec4 *vertices, unsigned int size, unsigned int grain);
-void			sphere(t_vec4 *vertices, unsigned int size);
 void			inf_cone(t_vec4 *vertices, unsigned int size, unsigned int grain);
 void			large_cube(t_vec4 *v_pos, unsigned int size, unsigned int grain);
 
@@ -160,12 +167,12 @@ int				render(t_window *w, t_renderer *r);
 
 // _ps.c
 t_system		*new_system(t_renderer *r, unsigned int size, t_position_ft f);
-void			run_system(t_window *w, t_system *s);
 
 // callback.c
 void			key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void			resize_callback(GLFWwindow *window, int width, int height);
 void			error_callback(int error, const char* description);
+void			mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void			scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void			apply_callback(t_window *window, t_callback *callback);
 

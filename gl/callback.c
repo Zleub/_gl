@@ -24,16 +24,28 @@ void	error_callback(int error, const char* description)
 	puts(description);
 }
 
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+extern float cam_w;
+t_vec3 mouse ;
+
+void	mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	(void)window;
 	(void)button;
 	(void)action;
 	(void)mods;
-	printf("%d\n", button);
-}
+	// printf("%d\n", button);
+	if (button == 0)
+	{
+		struct { double x ; double y ; } moused;
 
-extern float cam_w;
+		glfwGetCursorPos(window, &moused.x, &moused.y);
+
+		moused.x = (moused.x - WIDTH / 2) / WIDTH;
+		moused.y = (HEIGHT / 2 - moused.y) / HEIGHT;
+
+		mouse = (t_vec3){ (float)moused.x * (float)cam_w, (float)moused.y * (float)cam_w, 0. };
+	}
+}
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
@@ -65,25 +77,3 @@ void apply_callback(t_window *window, t_callback *callback)
 
 	glfwSetJoystickCallback(callback->joystick);
 }
-
-t_callback g_callback = (t_callback){
-	error_callback, // error
-
-	NULL, // windowpos
-	resize_callback, // windowsize
-	NULL, // windowclose
-	NULL, // windowrefresh
-	NULL, // windowfocus
-	NULL, // windowiconify
-	NULL, // framebuffersize
-
-	mouse_button_callback, // mousebutton
-	NULL, // cursorpos
-	NULL, // cursorenter
-	scroll_callback, // scroll
-	key_callback, // key
-	NULL, // uchar
-	NULL, // charmods
-	NULL, // drop
-	NULL // joystick
-} ;

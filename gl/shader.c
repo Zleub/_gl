@@ -50,7 +50,8 @@ int			compile_shader(int type, unsigned int prog)
 		GLint logSize = 0;
 		glGetShaderiv(prog, GL_INFO_LOG_LENGTH, &logSize);
 
-		char str[logSize];
+		char str[logSize + 1];
+		bzero(str, logSize + 1);
 		glGetShaderInfoLog(prog, logSize, &logSize, &str[0]);
 
 		printf("-> %s\n", str);

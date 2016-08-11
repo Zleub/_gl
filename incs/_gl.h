@@ -13,44 +13,136 @@
 #include <limits.h>
 #include <math.h>
 
-typedef struct	vec2 {
-	float		x;
-	float		y;
-}				t_vec2;
+typedef struct s_vec2f	t_vec2f ;
+struct		s_vec2f {
+	float	x;
+	float	y;
+};
+typedef struct s_vec2d	t_vec2d ;
+struct		s_vec2d {
+	double	x;
+	double	y;
+};
+typedef struct s_vec2i	t_vec2i ;
+struct		s_vec2i {
+	int		x;
+	int		y;
+};
 
-typedef struct	rgb {
-	float		r;
-	float		g;
-	float		b;
-}				t_rgb;
+typedef struct s_vec3f	t_vec3f ;
+struct			s_vec3f {
+	union {
+		float	x;
+		float	r;
+	};
+	union {
+		float	y;
+		float	g;
+	};
+	union {
+		float	z;
+		float	b;
+	};
+};
+typedef struct s_vec3d	t_vec3d ;
+struct			s_vec3d {
+	union {
+		double	x;
+		double	r;
+	};
+	union {
+		double	y;
+		double	g;
+	};
+	union {
+		double	z;
+		double	b;
+	};
+};
+typedef struct s_vec3i	t_vec3i ;
+struct			s_vec3i {
+	union {
+		int		x;
+		int		r;
+	};
+	union {
+		int		y;
+		int		g;
+	};
+	union {
+		int		z;
+		int		b;
+	};
+};
 
-typedef struct	vec3 {
-	float		x;
-	float		y;
-	float		z;
-}				t_vec3;
+typedef struct s_vec4f	t_vec4f ;
+struct			s_vec4f {
+	union {
+		float	x;
+		float	r;
+	};
+	union {
+		float	y;
+		float	g;
+	};
+	union {
+		float	z;
+		float	b;
+	};
+	union {
+		float	w;
+		float	a;
+	};
+};
+typedef struct s_vec4d	t_vec4d ;
+struct			s_vec4d {
+	union {
+		double	x;
+		double	r;
+	};
+	union {
+		double	y;
+		double	g;
+	};
+	union {
+		double	z;
+		double	b;
+	};
+	union {
+		double	w;
+		double	a;
+	};
+};
+typedef struct s_vec4i	t_vec4i ;
+struct			s_vec4i {
+	union {
+		int		x;
+		int		r;
+	};
+	union {
+		int		y;
+		int		g;
+	};
+	union {
+		int		z;
+		int		b;
+	};
+	union {
+		int		w;
+		int		a;
+	};
+};
 
-typedef struct	vec4 {
-	float		x;
-	float		y;
-	float		z;
-	float		w;
-}				t_vec4;
+typedef struct s_mlx_context t_mlx_context ;
+typedef struct s_window t_window ;
 
-typedef struct	s_vertices
-{
-	float		x;
-	float		y;
-	float		z;
-	float		r;
-	float		g;
-	float		b;
-}				t_vertices;
+typedef void (*MLXinitearlyfun)(t_mlx_context *) ;
+typedef void (*MLXinitlatefun)(t_mlx_context *) ;
+typedef void (*MLXwindowclosefun)(t_mlx_context *, t_window **);
+typedef void (*MLXwindowresize)(t_mlx_context *, t_window **);
 
-typedef void (*MLXinitearlyfun)() ;
-typedef int (*MLXinitlatefun)() ;
-
-typedef struct				s_callback {
+typedef struct s_callback	t_callback;
+struct						s_callback {
 	GLFWerrorfun			error;
 
 	GLFWwindowposfun		windowpos;
@@ -73,87 +165,80 @@ typedef struct				s_callback {
 
 	MLXinitearlyfun			initearlyfun;
 	MLXinitlatefun			initlatefun;
-}							t_callback ;
-
-typedef struct				s_fps {
-	char					str[32];
-	double					frames;
-	double					t;
-	double					t1;
-	double					t2;
-	float					dt;
-}							t_fps ;
-
-typedef struct				s_window {
-	GLFWwindow				*w;
-	struct vec2				size;
-	struct vec2				position;
-}							t_window;
-
-typedef struct				s_renderer {
-	unsigned int			VAO;
-	unsigned int			VBOP;
-	unsigned int			VBOC;
-
-	t_vec4					*v_pos;
-	t_vec4					*v_col;
-	unsigned int			vertices_nbr;
-
-	t_vec3					camera;
-
-	unsigned int			vertex_shader;
-	unsigned int			fragment_shader;
-	unsigned int			program;
-
-	int						vpos_location;
-	int						vcol_location;
-
-}							t_renderer;
-
-enum {
-	POSITION,
-	FORMULA,
-	PLENGTH
+	MLXwindowclosefun		mlxwindowclose;
+	MLXwindowresize			mlxwindowresize;
 };
 
-enum {
-	ATTRACTOR,
-	REPULSOR,
-	EMITTER,
-	RECEPTER,
-	TLEN
+typedef struct s_fps	t_fps;
+struct					s_fps {
+	char				str[32];
+	double				frames;
+	double				t;
+	double				t1;
+	double				t2;
+	float				dt;
 };
 
-typedef struct				s_system {
-	t_renderer				*renderer;
-	unsigned int			system_number;
-	t_vec3					*velocity;
-	t_vec3					**array[PLENGTH];
+enum renderer_mode {
+	MONO,
+	MULTIPLE,
+	INDEPENDANT,
+	RMLEN
+};
 
-}							t_system;
+typedef struct s_renderer	t_renderer;
+struct		s_renderer {
+	unsigned int	mode;
 
-typedef t_vec3 (*t_position_ft)(int nbr);
+	unsigned int	vertex_shader;
+	unsigned int	fragment_shader;
+	unsigned int	program;
 
-#define WIDTH 1024
-#define HEIGHT 1024
+	unsigned int	VAO;
+	unsigned int	VBOP;
+	unsigned int	VBOC;
+	unsigned int	VBOT;
 
-#define PARTICULE_WIDTH 16 // * 2
-#define PARTICULE_HEIGHT 16 // * 2
+	t_vec2i			window_size;
+	unsigned int	vertices_nbr;
+	t_vec3f			*v_pos;
+	t_vec3f			*v_col;
+	t_vec3f			*v_tex;
+
+	int				vpos_location;
+	int				vcol_location;
+	unsigned int	vtex_location;
+	unsigned int	texture;
+};
+
+typedef struct s_window	t_window;
+struct					s_window {
+	GLFWwindow			*w;
+	struct s_renderer	r;
+
+	t_vec2i				size;
+	t_vec2i				position;
+
+	unsigned int		flush;
+};
+
+#define PARTICULE_WIDTH 1024 // * 2
+#define PARTICULE_HEIGHT 1024 // * 2
 #define VNBR (PARTICULE_WIDTH * PARTICULE_HEIGHT)
 
 extern t_callback g_callback ;
 
 // window.c
-t_window		*init(int size_x, int size_y, char *title);
+void			*init(void);
 t_window		*new_window(int size_x, int size_y, char *title);
 
 // vertices.c
-t_vec4			*new_vertices(unsigned int size);
-void			line(t_vec4 *vertices, unsigned int size, unsigned int grain);
-void			cube(t_vec4 *vertices, unsigned int size, unsigned int grain);
-void			circle(t_vec4 *vertices, unsigned int size, unsigned int grain);
-void			inf_cone(t_vec4 *vertices, unsigned int size, unsigned int grain);
-void			large_cube(t_vec4 *v_pos, unsigned int size, unsigned int grain);
+t_vec4f			*new_vertices(unsigned int size);
+void			line(t_vec4f *vertices, unsigned int size, unsigned int grain);
+void			cube(t_vec4f *vertices, unsigned int size, unsigned int grain);
+void			circle(t_vec4f *vertices, unsigned int size, unsigned int grain);
+void			inf_cone(t_vec4f *vertices, unsigned int size, unsigned int grain);
+void			large_cube(t_vec4f *v_pos, unsigned int size, unsigned int grain);
 
 // shader.c
 char			*load_shader(char *filename);
@@ -161,12 +246,9 @@ int				compile_shader(int type, unsigned int prog);
 unsigned int	make_shader(int type, char *path);
 
 // renderer.c
-t_renderer		*new_renderer(t_vec4 *v_pos, t_vec4 *v_col, unsigned int size);
+void			init_renderer(t_renderer *r);
 void			assign_shader(t_renderer *r, char *v_path, char *f_path);
-int				render(t_window *w, t_renderer *r);
-
-// _ps.c
-t_system		*new_system(t_renderer *r, unsigned int size, t_position_ft f);
+int				render(t_window *window);
 
 // callback.c
 void			key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);

@@ -1,24 +1,21 @@
 #include <_gl.h>
+// #include <mlx.h>
 #include <stdio.h>
 
-t_renderer		*new_renderer(t_vec4 *v_pos, t_vec4 *v_col, unsigned int size)
+void			init_renderer(t_renderer *r)
 {
-	t_renderer	*r;
-
-	r = malloc(sizeof(t_renderer));
-	bzero(r, sizeof(t_renderer));
-	r->v_pos = v_pos;
-	r->v_col = v_col;
-	r->vertices_nbr = size;
-
 	glGenVertexArrays(1, &r->VAO);
 	glBindVertexArray(r->VAO);
 
-	return r;
+
+	assign_shader(r, "res/std_vertex.glsl", "res/std_fragment.glsl");
 }
 
 void			assign_shader(t_renderer *r, char *v_path, char *f_path)
 {
+	static int j = 0;
+
+	printf("-NEW WINDOW-------------------------------\n");
 	r->vertex_shader = make_shader(GL_VERTEX_SHADER, v_path);
 	r->fragment_shader = make_shader(GL_FRAGMENT_SHADER, f_path);
 
@@ -29,43 +26,87 @@ void			assign_shader(t_renderer *r, char *v_path, char *f_path)
 
 	r->vpos_location = glGetAttribLocation(r->program, "vPos");
 	r->vcol_location = glGetAttribLocation(r->program, "vCol");
+	r->vtex_location = glGetAttribLocation(r->program, "tPos");
+	unsigned int t = glGetUniformLocation(r->program, "tex");
 
 	glGenBuffers(1, &r->VBOP);
 	glBindBuffer(GL_ARRAY_BUFFER, r->VBOP);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * r->vertices_nbr, r->v_pos, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(t_vec3f) * r->vertices_nbr, r->v_pos, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(r->vpos_location);
-	glVertexAttribPointer(r->vpos_location, 4, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+	glVertexAttribPointer(r->vpos_location, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 
 	glGenBuffers(1, &r->VBOC);
 	glBindBuffer(GL_ARRAY_BUFFER, r->VBOC);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * r->vertices_nbr, r->v_col, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(t_vec3f) * r->vertices_nbr, r->v_col, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(r->vcol_location);
-	glVertexAttribPointer(r->vcol_location, 4, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+	glVertexAttribPointer(r->vcol_location, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+
+	glGenBuffers(1, &r->VBOT);
+	glBindBuffer(GL_ARRAY_BUFFER, r->VBOT);
+	glEnableVertexAttribArray(r->vtex_location);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(t_vec3f) * r->vertices_nbr, r->v_tex, GL_STATIC_DRAW);
+	glVertexAttribPointer(r->vtex_location, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+
+
+	unsigned int size = r->window_size.x * r->window_size.y ;
+	t_vec3f img[size];
+	for (unsigned int i = 0; i < size; ++i)
+	{
+		if (j == 0)
+			img[i] = (t_vec3f){ .r = 1., .g = 0., .b = 0.};
+		if (j == 1)
+			img[i] = (t_vec3f){ .r = 0., .g = 1., .b = 0.};
+		if (j == 2)
+			img[i] = (t_vec3f){ .r = 0., .g = 0., .b = 1.};
+	}
+
+	glGenTextures(1, &r->texture);
+	glBindTexture(GL_TEXTURE_2D, r->texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, r->window_size.x, r->window_size.y, 0, GL_RGB, GL_FLOAT, img);
+	glUniform1i(t, 0);
+
+	printf("r->vertex_shader: %d\n", r->vertex_shader);
+	printf("r->fragment_shader: %d\n", r->fragment_shader);
+	printf("r->program: %d\n", r->program);
+	printf("r->texture: %d\n", r->texture);
+	printf("------------------------------------------\n");
+	printf(" \n");
+
+	j += 1;
 }
 
 extern float cam_w;
+// extern struct s_mlx_context g_mlx_context;
 
-int				render(t_window *window, t_renderer *r)
+int				render(t_window *window)
 {
 	if (glfwWindowShouldClose(window->w))
-		return (-1);
+		return (0);
+	else
+	{
+		glfwMakeContextCurrent(window->w);
+		if (window->flush) {
+			glClear(GL_COLOR_BUFFER_BIT);
+			window->flush -= 1;
+		}
 
-	// glfwMakeContextCurrent(window->w);
+		glActiveTexture(0);
+		if (window->r.mode == MONO)
+			glBindTexture(GL_TEXTURE_2D, 1);
+		else
+			glBindTexture(GL_TEXTURE_2D, window->r.texture);
 
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// glClear(GL_COLOR_BUFFER_BIT);
-
-	GLint __w = glGetUniformLocation(r->program, "w");
-	glUniform1f(__w, cam_w);
-
-	glUseProgram(r->program);
-
-	glDrawArrays(GL_POINTS, 0, VNBR);
-
-	glfwSwapBuffers(window->w);
-	glfwPollEvents();
+		// printf("%d\n", window->r.program);
+		glUseProgram(window->r.program);
+		glDrawArrays(GL_TRIANGLE_FAN, 0, window->r.vertices_nbr);
+		glfwSwapBuffers(window->w);
+		glfwMakeContextCurrent(0);
+	}
 
 	return (1);
 }

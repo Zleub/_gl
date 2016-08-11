@@ -4,14 +4,13 @@ __kernel void square(
 	global float3 * mouse,
 	global float3 * dPobj,
 	global float3 * dVel,
-	global float3 * dCobj
+	global float3 * dCobj,
+
+	global float3 * iPos
 ) {
 	int Xindex = get_global_id(0);
 	int Yindex = get_global_id(1);
 	int index = Xindex + Yindex * (int)(*width);
-
-	if (Xindex == 1)
-		return ;
 
 	float pos = dPobj[index].y ;
 	float vel = dVel[index].y ;
@@ -26,6 +25,6 @@ __kernel void square(
 	dVel[index].y += (att - pos) * (dst / 2);
 	dPobj[index].y += vel * (*dt) ;
 
-	dCobj[index].y = dst * dst;
-	dCobj[index].z = dst * 2;
+	dCobj[index].y = 1 ; //pow(dst / 2, 2);
+	dCobj[index].z = 1 ; //dst / 2;
 }

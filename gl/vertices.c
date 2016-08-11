@@ -2,12 +2,12 @@
 #include <stdio.h>
 
 
-t_vec4	*new_vertices(unsigned int size)
+t_vec4f	*new_vertices(unsigned int size)
 {
-	t_vec4		*v;
+	t_vec4f		*v;
 
-	v = (t_vec4 *)malloc(sizeof(t_vec4) * size);
-	bzero(v, sizeof(t_vec4) * size);
+	v = (t_vec4f *)malloc(sizeof(t_vec4f) * size);
+	bzero(v, sizeof(t_vec4f) * size);
 
 	return (v);
 }
@@ -16,18 +16,18 @@ t_vec4	*new_vertices(unsigned int size)
 #include <time.h>
 #include <stdlib.h>
 
-void		line(t_vec4 *v_pos, unsigned int size, unsigned int grain)
+void		line(t_vec4f *v_pos, unsigned int size, unsigned int grain)
 {
 	srand(time(NULL));
 	for (unsigned int i = 0; i < size; ++i)
 	{
 		v_pos[i].x = 0.;
-		v_pos[i].y = ((float)(rand() % (HEIGHT)) / (float)HEIGHT ) ;
+		v_pos[i].y = ((float)(rand() % (grain)) / (float)grain ) ;
 		v_pos[i].z = ((float)(rand() % grain) / (float)grain ) + (rand() % 2) - 1;
 	}
 }
 
-void		cube(t_vec4 *v_pos, unsigned int size, unsigned int grain)
+void		cube(t_vec4f *v_pos, unsigned int size, unsigned int grain)
 {
 	srand(time(NULL));
 	for (unsigned int i = 0; i < size; ++i)
@@ -38,7 +38,7 @@ void		cube(t_vec4 *v_pos, unsigned int size, unsigned int grain)
 	}
 }
 
-void		large_cube(t_vec4 *v_pos, unsigned int size, unsigned int grain)
+void		large_cube(t_vec4f *v_pos, unsigned int size, unsigned int grain)
 {
 	(void)grain;
 	srand(time(NULL));
@@ -50,7 +50,7 @@ void		large_cube(t_vec4 *v_pos, unsigned int size, unsigned int grain)
 	}
 }
 
-void		circle(t_vec4 *v_pos, unsigned int size, unsigned int grain)
+void		circle(t_vec4f *v_pos, unsigned int size, unsigned int grain)
 {
 	srand(time(NULL));
 	for (unsigned int i = 0; i < size; ++i)
@@ -64,7 +64,7 @@ void		circle(t_vec4 *v_pos, unsigned int size, unsigned int grain)
 
 }
 
-void		inf_cone(t_vec4 *v_pos, unsigned int size, unsigned int grain)
+void		inf_cone(t_vec4f *v_pos, unsigned int size, unsigned int grain)
 {
 	srand(time(NULL));
 	for (unsigned int i = 0; i < size; ++i)

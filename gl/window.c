@@ -13,7 +13,7 @@ void	*init(void)
 		exit(EXIT_FAILURE);
 
 	bzero(&g_mlx_context, sizeof(struct s_mlx_context));
-	bzero(g_mlx_context.windows, sizeof(t_window *) * WINDOW_MAX);
+	STAILQ_INIT(&g_mlx_context.w_head);
 
 	if (g_callback.initlatefun)
 		g_callback.initlatefun(&g_mlx_context);
@@ -22,57 +22,64 @@ void	*init(void)
 }
 
 static t_vec3f base_vertices[4] = {
-	{ .x = -1., .y = -1., .z = 0. },
-	{ .x = -1., .y =  1., .z = 0. },
-	{ .x =  1., .y =  1., .z = 0. },
-	{ .x =  1., .y = -1., .z = 0. }
+	{ -1., -1., 0. },
+	{ -1.,  1., 0. },
+	{  1.,  1., 0. },
+	{  1., -1., 0. }
 };
 static t_vec3f base_colors[4] = {
-	{ .x = 1., .y = 1., .z = 1. },
-	{ .x = 1., .y = 1., .z = 1. },
-	{ .x = 1., .y = 1., .z = 1. },
-	{ .x = 1., .y = 1., .z = 1. }
+	{ 1., 1., 1. },
+	{ 1., 1., 1. },
+	{ 1., 1., 1. },
+	{ 1., 1., 1. }
 };
 static t_vec3f base_textures[4] = {
-	{ .x = 0., .y = 1., .z = 0 },
-	{ .x = 0., .y = 0., .z = 0 },
-	{ .x = 1., .y = 0., .z = 0 },
-	{ .x = 1., .y = 1., .z = 0 }
+	{ 0., 1., 0 },
+	{ 0., 0., 0 },
+	{ 1., 0., 0 },
+	{ 1., 1., 0 }
 };
-
-static t_window *first_window;
 
 t_window	*new_window(int size_x, int size_y, char *title)
 {
-	static int count = 0;
-	t_window	*nw;
+	t_window_list	*nw;
 
-	nw = malloc(sizeof(t_window));
-	bzero(nw, sizeof(t_window));
+	if (g_mlx_context.window_nbr == WINDOW_MAX)
+	{
+		printf("max window reached\n");
+		return (0);
+	}
 
-	if (count == 0) {
-		nw->w = glfwCreateWindow(size_x, size_y, title, NULL, NULL);
-		first_window = nw;
-	}
-	else {
-		nw->w = glfwCreateWindow(size_x, size_y, title, NULL, first_window->w);
-	}
-	glfwGetWindowSize(nw->w, &nw->size.x, &nw->size.y);
-	glfwGetWindowPos(nw->w, &nw->position.x, &nw->position.y);
+	nw = malloc(sizeof(t_window_list));
+	bzero(nw, sizeof(t_window_list));
+
+	nw->w.w = glfwCreateWindow(size_x, size_y, title, NULL, NULL);
+	STAILQ_INSERT_TAIL(&g_mlx_context.w_head, nw, next);
+
+
+	int a[2];
+	glfwGetWindowSize(nw->w.w, &a[0], &a[1]);
+	nw->w.size.x = a[0];
+	nw->w.size.y = a[1];
+	glfwGetWindowPos(nw->w.w, &a[0], &a[1]);
+	nw->w.position.x = a[0];
+	nw->w.position.y = a[1];
+
+	apply_callback(&nw->w, &g_callback);
+	g_callback.windowfocus(nw->w.w, 1);
 
 	g_mlx_context.window_nbr += 1;
-	glfwMakeContextCurrent(nw->w);
+	glfwMakeContextCurrent(nw->w.w);
 
-	bzero(&(nw->r), sizeof(t_renderer));
-	nw->r.v_pos = base_vertices;
-	nw->r.v_col = base_colors;
-	nw->r.v_tex = base_textures;
-	nw->r.vertices_nbr = 4;
-	nw->r.window_size = (t_vec2i){ size_x, size_y };
+	bzero(&(nw->w.r), sizeof(t_renderer));
+	nw->w.r.v_pos = base_vertices;
+	nw->w.r.v_col = base_colors;
+	nw->w.r.v_tex = base_textures;
+	nw->w.r.vertices_nbr = 4;
+	nw->w.r.window_size = (t_vec2i){ size_x, size_y };
 
-	init_renderer(&(nw->r));
+	init_renderer(&(nw->w.r));
 	glfwMakeContextCurrent(0);
 
-	count += 1;
-	return (nw);
+	return (&nw->w);
 }

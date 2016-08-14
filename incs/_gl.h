@@ -1,5 +1,17 @@
-#ifndef MLX_H
-# define MLX_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   _gl.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/08/14 01:12:47 by adebray           #+#    #+#             */
+/*   Updated: 2016/08/14 19:47:41 by adebray          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef _GL_H
+# define _GL_H
 
 #define GLFW_INCLUDE_GLCOREARB
 #define GLFW_INCLUDE_GLEXT
@@ -13,125 +25,17 @@
 #include <limits.h>
 #include <math.h>
 
-typedef struct s_vec2f	t_vec2f ;
-struct		s_vec2f {
-	float	x;
-	float	y;
-};
-typedef struct s_vec2d	t_vec2d ;
-struct		s_vec2d {
-	double	x;
-	double	y;
-};
-typedef struct s_vec2i	t_vec2i ;
-struct		s_vec2i {
-	int		x;
-	int		y;
-};
+typedef int		t_vec2i __attribute__((ext_vector_type(2)));
+typedef float	t_vec2f __attribute__((ext_vector_type(2)));
+typedef double	t_vec2d __attribute__((ext_vector_type(2)));
 
-typedef struct s_vec3f	t_vec3f ;
-struct			s_vec3f {
-	union {
-		float	x;
-		float	r;
-	};
-	union {
-		float	y;
-		float	g;
-	};
-	union {
-		float	z;
-		float	b;
-	};
-};
-typedef struct s_vec3d	t_vec3d ;
-struct			s_vec3d {
-	union {
-		double	x;
-		double	r;
-	};
-	union {
-		double	y;
-		double	g;
-	};
-	union {
-		double	z;
-		double	b;
-	};
-};
-typedef struct s_vec3i	t_vec3i ;
-struct			s_vec3i {
-	union {
-		int		x;
-		int		r;
-	};
-	union {
-		int		y;
-		int		g;
-	};
-	union {
-		int		z;
-		int		b;
-	};
-};
+typedef int		t_vec3i __attribute__((ext_vector_type(3)));
+typedef float	t_vec3f __attribute__((ext_vector_type(3)));
+typedef double	t_vec3d __attribute__((ext_vector_type(3)));
 
-typedef struct s_vec4f	t_vec4f ;
-struct			s_vec4f {
-	union {
-		float	x;
-		float	r;
-	};
-	union {
-		float	y;
-		float	g;
-	};
-	union {
-		float	z;
-		float	b;
-	};
-	union {
-		float	w;
-		float	a;
-	};
-};
-typedef struct s_vec4d	t_vec4d ;
-struct			s_vec4d {
-	union {
-		double	x;
-		double	r;
-	};
-	union {
-		double	y;
-		double	g;
-	};
-	union {
-		double	z;
-		double	b;
-	};
-	union {
-		double	w;
-		double	a;
-	};
-};
-typedef struct s_vec4i	t_vec4i ;
-struct			s_vec4i {
-	union {
-		int		x;
-		int		r;
-	};
-	union {
-		int		y;
-		int		g;
-	};
-	union {
-		int		z;
-		int		b;
-	};
-	union {
-		int		w;
-		int		a;
-	};
-};
+typedef int		t_vec4i __attribute__((ext_vector_type(4)));
+typedef float	t_vec4f __attribute__((ext_vector_type(4)));
+typedef double	t_vec4d __attribute__((ext_vector_type(4)));
 
 typedef struct s_mlx_context t_mlx_context ;
 typedef struct s_window t_window ;
@@ -177,6 +81,22 @@ struct					s_fps {
 	double				t1;
 	double				t2;
 	float				dt;
+};
+
+enum window_size {
+	SMALLEST,		// 640, 480
+	SMALLEST_PLUS,	// 800, 600
+	SMALLER,		// 1024, 576
+	SMALLER_PLUS,	// 1024, 768
+	SMALL,			// 1280, 720
+	SMALL_PLUS,		// 1344, 756
+	LARGE,			// 1280, 960
+	LARGE_PLUS,		// 1344, 1008
+	LARGER,			// 1600, 900
+	LARGER_PLUS,	// 1600, 1200
+	LARGEST,		// 2048, 1152
+	FULLSCREEN,		// 2560, 1440
+	WSLEN
 };
 
 enum renderer_mode {

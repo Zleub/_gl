@@ -24,6 +24,18 @@ void switch_mlx_mode(int key)
 
 }
 
+void lx_new_window(int key)
+{
+	(void)key;
+	new_window(g_mlx_context.vidmode_size.width, g_mlx_context.vidmode_size.height, "test");
+}
+
+void debug(int key)
+{
+	(void)key;
+	printf("debug\n");
+}
+
 static t_key_function key_array[350] = {
 	[GLFW_KEY_1] = dummy,
 	[GLFW_KEY_2] = dummy,
@@ -43,7 +55,10 @@ static t_key_function key_array[350] = {
 	[GLFW_KEY_KP_7] = dummy,
 	[GLFW_KEY_KP_8] = dummy,
 
-	[GLFW_KEY_M] = switch_mlx_mode
+	// [GLFW_KEY_Q] = dummy,
+	// [GLFW_KEY_D] = debug,
+	[GLFW_KEY_N] = lx_new_window,
+	// [GLFW_KEY_M] = switch_mlx_mode
 } ;
 
 void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -60,42 +75,15 @@ void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 }
 
-void destroy_callback(GLFWwindow *window)
+void	destroy_callback(GLFWwindow *window)
 {
-	unsigned int i;
-
-	i = 0;
-	while (i < WINDOW_MAX)
-	{
-		if (g_mlx_context.windows[i]
-			&& g_mlx_context.windows[i]->w == window
-			&& g_callback.mlxwindowclose) {
-				glfwMakeContextCurrent(0);
-				glfwDestroyWindow(g_mlx_context.windows[i]->w);
-				free(g_mlx_context.windows[i]);
-				g_mlx_context.windows[i] = 0;
-			return g_callback.mlxwindowclose(&g_mlx_context, &g_mlx_context.windows[i]);
-		}
-		i += 1;
-	}
+	(void)window;
 }
 
 void		focus_test(GLFWwindow *w, int action)
 {
-	unsigned int i;
-
-	i = 0;
+	(void)w;
 	(void)action;
-	while (i < WINDOW_MAX)
-	{
-		if (g_mlx_context.windows[i]
-			&& g_mlx_context.windows[i]->w == w
-			&& g_callback.mlxwindowclose) {
-			g_mlx_context.active_window = g_mlx_context.windows[i];
-			return ;
-		}
-		i += 1;
-	}
 }
 
 
@@ -104,7 +92,20 @@ void	resize_callback(GLFWwindow *window, int width, int height)
 	(void)window;
 	(void)width;
 	(void)height;
-	printf("%d, %d\n", width, height);
+	printf("size: %d, %d\n", width, height);
+	printf("size ratio: %f, %f\n",
+		(double)width / (double)g_mlx_context.screen_size.width,
+		(double)height / (double)g_mlx_context.screen_size.height
+	);
+
+	int x, y;
+	glfwGetWindowPos(window, &x, &y);
+	printf("pos: %d, %d\n", x, y);
+	printf("pos ratio: %f, %f\n",
+		(double)x / (double)g_mlx_context.screen_size.width,
+		(double)y / (double)g_mlx_context.screen_size.height
+	);
+
 }
 
 void	error_callback(int error, const char* description)
@@ -135,9 +136,9 @@ void	mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		moused.y = (height / 2 - moused.y) / height;
 
 		mouse = (t_vec3f){
-			.x = (float)moused.x * (float)cam_w,
-			.y = (float)moused.y * (float)cam_w,
-			.z = 0.
+			(float)moused.x * (float)cam_w,
+			(float)moused.y * (float)cam_w,
+			0.
 		};
 	}
 }

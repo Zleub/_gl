@@ -18,23 +18,36 @@
 #define ANGLE M_PI / 10000000
 #define RADIUS 1
 
-void		windows_init(struct s_mlx_context *mc)
-{
-	mc->windows[0] = mlx_new_window(480, 640, "WindowA");
-	mc->windows[1] = mlx_new_window(640, 480, "WindowB");
-	mc->windows[2] = mlx_new_window(640, 640, "WindowC");
+#define VIDMODE SMALLEST_PLUS
 
-	for (unsigned int i = 0; i < mc->window_nbr; ++i)
-	{
-		apply_callback(mc->windows[i], &g_callback);
+void		windows_init_late(struct s_mlx_context *mc)
+{
+	int count ;
+	const GLFWvidmode * vidmodes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
+
+	mc->vidmode_size.width = 640;
+	mc->vidmode_size.height = 480;
+	mc->screen_size.width = 640;
+	mc->screen_size.height = 480;
+	if (count == WSLEN) {
+		mc->vidmode_size.width = vidmodes[VIDMODE].width;
+		mc->vidmode_size.height = vidmodes[VIDMODE].height;
+		mc->screen_size.width = vidmodes[FULLSCREEN].width;
+		mc->screen_size.height = vidmodes[FULLSCREEN].height;
 	}
+
+	mlx_new_window(mc->vidmode_size.width, mc->vidmode_size.height, "WindowA");
+	mlx_new_window(mc->vidmode_size.width, mc->vidmode_size.height, "WindowB");
+	mlx_new_window(mc->vidmode_size.width, mc->vidmode_size.height, "WindowC");
+
+	(void)mc;
 }
 
 void		destroy_window(struct s_mlx_context *mc, t_window **w)
 {
 	(void)mc;
 	(void)w;
-	printf("mlx_destroy_window\n");
+	printf("mlx_destroy_window %p\n", (*w));
 	mc->window_nbr -= 1;
 }
 
@@ -63,10 +76,18 @@ t_callback g_callback = (t_callback){
 	/* joystick */			NULL,
 
 	/* initearly */			NULL,
-	/* initlate */			windows_init,
+	/* initlate */			windows_init_late,
 	/* mlxwindowclose */	destroy_window,
 	/* mlxwindowresize */	NULL
 } ;
+
+void debug_window(t_window *w)
+{
+	printf("[");
+	printf("%p", w);
+	printf("]\n");
+}
+
 
 int main()
 {
@@ -74,11 +95,11 @@ int main()
 
 	while (mc->window_nbr)
 	{
-		for (unsigned int i = 0; i < WINDOW_MAX; ++i)
-		{
-			if (mc->windows[i])
-				render(mc->windows[i]);
-		}
+		t_window_list *np;
+
+		STAILQ_FOREACH(np, &mc->w_head, next)
+			// debug_window(&np->w);
+			render(&np->w);
 
 		glfwPollEvents();
 	}

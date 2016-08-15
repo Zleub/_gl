@@ -19,11 +19,9 @@ void	*init(void)
 	if (g_callback.initearlyfun)
 		g_callback.initearlyfun(&g_mlx_context);
 
+	STAILQ_INIT(&g_mlx_context.w_head);
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
-
-	// g_mlx_context.w_head = STAILQ_HEAD_INITIALIZER(g_mlx_context.w_head);
-	STAILQ_INIT(&g_mlx_context.w_head);
 
 	if (g_callback.initlatefun)
 		g_callback.initlatefun(&g_mlx_context);
@@ -57,7 +55,10 @@ t_window	*new_window(int size_x, int size_y, char *title)
 	nw = malloc(sizeof(t_window_list));
 	bzero(nw, sizeof(t_window_list));
 
-	nw->w.w = glfwCreateWindow(size_x, size_y, title, NULL, NULL);
+	if (STAILQ_EMPTY(&g_mlx_context.w_head))
+		nw->w.w = glfwCreateWindow(size_x, size_y, title, NULL, NULL);
+	else
+		nw->w.w = glfwCreateWindow(size_x, size_y, title, NULL, STAILQ_FIRST(&g_mlx_context.w_head)->w.w);
 	STAILQ_INSERT_TAIL(&g_mlx_context.w_head, nw, next);
 
 	int a[2];

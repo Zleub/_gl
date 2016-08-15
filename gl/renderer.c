@@ -11,9 +11,9 @@ void			init_renderer(t_renderer *r)
 	assign_shader(r, "res/std_vertex.glsl", "res/std_fragment.glsl");
 }
 
-#define COLOR_LEN 16
+#define COLOR_LEN 15
 static t_vec3f color_table[COLOR_LEN] = {
-	{ 0.,   0.,   0. },
+	// { 0.,   0.,   0. },
 	{ 1.,   1.,   1. },
 	{ 1.,   0.,   0. },
 	{ 0.,   1.,   0. },
@@ -66,7 +66,7 @@ void			assign_shader(t_renderer *r, char *v_path, char *f_path)
 	glBindBuffer(GL_ARRAY_BUFFER, r->VBOT);
 	glEnableVertexAttribArray(r->vtex_location);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(t_vec3f) * r->vertices_nbr, r->v_tex, GL_STATIC_DRAW);
-	glVertexAttribPointer(r->vtex_location, 2, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+	glVertexAttribPointer(r->vtex_location, sizeof(t_vec3f) / sizeof(float), GL_FLOAT, GL_FALSE, 0, (void*) 0);
 
 	glGenTextures(1, &r->texture);
 	glBindTexture(GL_TEXTURE_2D, r->texture);
@@ -75,14 +75,21 @@ void			assign_shader(t_renderer *r, char *v_path, char *f_path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	unsigned int size = r->window_size.x * r->window_size.y ;
+	unsigned int w = 16 ; //r->window_size.x;
+	unsigned int h = 16 ; //r->window_size.y;
+	unsigned int size = w * h ;
 
-	t_vec3f *img = malloc(sizeof(t_vec3f) * size);
+	t_vec4f *img = malloc(sizeof(t_vec4f) * size);
 	for (unsigned int i = 0; i < size; ++i)
 	{
-		img[i] = color_table[j % COLOR_LEN];
+		img[i] = (t_vec4f){
+			color_table[j % COLOR_LEN].x,
+			color_table[j % COLOR_LEN].y,
+			color_table[j % COLOR_LEN].z,
+			1.
+		};
 	}
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, r->window_size.x, r->window_size.y, 0, GL_RGB, GL_FLOAT, img);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_FLOAT, img);
 	free(img);
 
 	glUniform1i(t, 0);
@@ -107,16 +114,16 @@ int				render(t_window *window)
 		glfwMakeContextCurrent(0);
 		glfwDestroyWindow(window->w);
 		STAILQ_REMOVE(&g_mlx_context.w_head, (t_window_list*)window, s_window_list, next);
-		// free(window);
-		// window = 0;
+		free(window);
+		window = 0;
 	}
 	else
 	{
 		glfwMakeContextCurrent(window->w);
-		if (window->flush > 0) {
-			glClear(GL_COLOR_BUFFER_BIT);
-			window->flush -= 1;
-		}
+		// if (window->flush > 0) {
+		// 	glClear(GL_COLOR_BUFFER_BIT);
+		// 	window->flush -= 1;
+		// }
 
 		glActiveTexture(0);
 		if (window->r.mode == MONO)

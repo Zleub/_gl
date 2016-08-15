@@ -10,7 +10,9 @@ varying vec3 texture;
 
 void main()
 {
-	gl_Position = vec4(vPos, 1.);
-	color = vec3(vPos.x, vPos.y, (vPos.x * vPos.y));
+	// color = vec3(vPos.x, vPos.y, (vPos.x * vPos.y));
+	color = vec3(1., 1., 1.);
 	texture = tPos;
+
+	gl_Position = vec4(vPos, 1.);
 }

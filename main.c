@@ -20,10 +20,12 @@
 
 #define VIDMODE SMALLEST_PLUS
 
+const GLFWvidmode * vidmodes ;
+
 void		windows_init_late(struct s_mlx_context *mc)
 {
-	int count ;
-	const GLFWvidmode * vidmodes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
+	int count = 0;
+	vidmodes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
 
 	mc->vidmode_size.width = 640;
 	mc->vidmode_size.height = 480;
@@ -41,6 +43,7 @@ void		windows_init_late(struct s_mlx_context *mc)
 	mlx_new_window(mc->vidmode_size.width, mc->vidmode_size.height, "WindowC");
 
 	(void)mc;
+	// printf("%p\n", mc);
 }
 
 void		destroy_window(struct s_mlx_context *mc, t_window *w)
@@ -80,14 +83,6 @@ t_callback g_callback = (t_callback){
 	/* mlxwindowclose */	destroy_window,
 	/* mlxwindowresize */	NULL
 } ;
-
-void debug_window(t_window *w)
-{
-	printf("[");
-	printf("%p", w);
-	printf("]\n");
-}
-
 
 int main()
 {

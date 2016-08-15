@@ -58,7 +58,7 @@ static t_key_function key_array[350] = {
 	// [GLFW_KEY_Q] = dummy,
 	// [GLFW_KEY_D] = debug,
 	[GLFW_KEY_N] = lx_new_window,
-	// [GLFW_KEY_M] = switch_mlx_mode
+	[GLFW_KEY_M] = switch_mlx_mode
 } ;
 
 void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -82,16 +82,24 @@ void	destroy_callback(GLFWwindow *window)
 	(void)window;
 	printf("GLFW destroy callback\n");
 	STAILQ_FOREACH(np, &g_mlx_context.w_head, next) {
-		if (np->w.w == window)
-			// printf("I got the window\n");
+		if (np->w.w == window && g_callback.mlxwindowclose)
 			g_callback.mlxwindowclose(&g_mlx_context, &np->w);
 	}
 }
 
-void		focus_test(GLFWwindow *w, int action)
+void		focus_test(GLFWwindow *window, int action)
 {
-	(void)w;
+	(void)window;
 	(void)action;
+	struct s_window_list *np;
+
+	(void)window;
+	printf("GLFW focus callback\n");
+	STAILQ_FOREACH(np, &g_mlx_context.w_head, next) {
+		if (np->w.w == window && g_callback.mlxwindowclose)
+			g_mlx_context.active_window = &np->w;
+	}
+
 }
 
 

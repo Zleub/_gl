@@ -70,7 +70,7 @@ unsigned int	make_shader(int type, char *path)
 	glShaderSource(shader, 1, (const char *const *)&shader_text, NULL);
 	compile_shader(type, shader);
 
-	// free(shader_text);
+	free(shader_text);
 	printf("%s done\n", path);
 	return (shader);
 }

@@ -2,7 +2,17 @@
 #include <mlx.h>
 #include <stdio.h>
 
-struct s_mlx_context g_mlx_context ;
+struct s_mlx_context g_mlx_context = {
+	MONO,
+
+	{ 0, 0 },
+	{ 0, 0 },
+
+	0,
+	STAILQ_HEAD_INITIALIZER(g_mlx_context.w_head),
+	NULL,
+	NULL
+};
 
 void	*init(void)
 {
@@ -12,7 +22,7 @@ void	*init(void)
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
 
-	bzero(&g_mlx_context, sizeof(struct s_mlx_context));
+	// g_mlx_context.w_head = STAILQ_HEAD_INITIALIZER(g_mlx_context.w_head);
 	STAILQ_INIT(&g_mlx_context.w_head);
 
 	if (g_callback.initlatefun)
@@ -44,18 +54,11 @@ t_window	*new_window(int size_x, int size_y, char *title)
 {
 	t_window_list	*nw;
 
-	if (g_mlx_context.window_nbr == WINDOW_MAX)
-	{
-		printf("max window reached\n");
-		return (0);
-	}
-
 	nw = malloc(sizeof(t_window_list));
 	bzero(nw, sizeof(t_window_list));
 
 	nw->w.w = glfwCreateWindow(size_x, size_y, title, NULL, NULL);
 	STAILQ_INSERT_TAIL(&g_mlx_context.w_head, nw, next);
-
 
 	int a[2];
 	glfwGetWindowSize(nw->w.w, &a[0], &a[1]);
@@ -81,5 +84,7 @@ t_window	*new_window(int size_x, int size_y, char *title)
 	init_renderer(&(nw->w.r));
 	glfwMakeContextCurrent(0);
 
+	printf("%p\n", nw);
+	printf("%p vs %p\n", &nw, &nw->w);
 	return (&nw->w);
 }

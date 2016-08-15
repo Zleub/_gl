@@ -6,7 +6,7 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/14 01:12:47 by adebray           #+#    #+#             */
-/*   Updated: 2016/08/15 20:15:28 by adebray          ###   ########.fr       */
+/*   Updated: 2016/08/15 23:50:04 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,16 @@ enum window_size {
 	WSLEN
 };
 
-enum renderer_mode {
-	MONO,
-	MULTIPLE,
-	INDEPENDANT,
+enum e_drawing_mode {
+	MLX, // each window its texture
+	GL,  // free pleasure
+	DMLEN
+};
+
+enum e_mlx_mode {
+	MONO, // every window draw the first texture
+	MULTIPLE, // every window can draw the first texture and its own
+	INDEPENDANT, // every window draw its own texture
 	RMLEN
 };
 

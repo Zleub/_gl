@@ -21,8 +21,6 @@
 #define mlx_init init
 #define mlx_new_window new_window
 
-#define WINDOW_MAX 8
-
 struct s_size {
 	int		width;
 	int		height;

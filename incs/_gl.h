@@ -6,7 +6,7 @@
 /*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/14 01:12:47 by adebray           #+#    #+#             */
-/*   Updated: 2016/08/14 19:47:41 by adebray          ###   ########.fr       */
+/*   Updated: 2016/08/15 20:15:28 by adebray          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_window t_window ;
 
 typedef void (*MLXinitearlyfun)(t_mlx_context *) ;
 typedef void (*MLXinitlatefun)(t_mlx_context *) ;
-typedef void (*MLXwindowclosefun)(t_mlx_context *, t_window **);
-typedef void (*MLXwindowresize)(t_mlx_context *, t_window **);
+typedef void (*MLXwindowclosefun)(t_mlx_context *, t_window *);
+typedef void (*MLXwindowresize)(t_mlx_context *, t_window *);
 
 typedef struct s_callback	t_callback;
 struct						s_callback {

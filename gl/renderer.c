@@ -1,5 +1,5 @@
 #include <_gl.h>
-// #include <mlx.h>
+#include <mlx.h>
 #include <stdio.h>
 
 void			init_renderer(t_renderer *r)
@@ -98,7 +98,7 @@ void			assign_shader(t_renderer *r, char *v_path, char *f_path)
 }
 
 extern float cam_w;
-// extern struct s_mlx_context g_mlx_context;
+extern struct s_mlx_context g_mlx_context;
 
 int				render(t_window *window)
 {
@@ -106,10 +106,9 @@ int				render(t_window *window)
 	{
 		glfwMakeContextCurrent(0);
 		glfwDestroyWindow(window->w);
-		// STAILQ_REMOVE(&g_mlx_context.w_head, np, entry, entries);
+		STAILQ_REMOVE(&g_mlx_context.w_head, (t_window_list*)window, s_window_list, next);
 		// free(window);
 		// window = 0;
-		return (0);
 	}
 	else
 	{
@@ -132,5 +131,5 @@ int				render(t_window *window)
 		glfwMakeContextCurrent(0);
 	}
 
-	return (1);
+	return (g_mlx_context.window_nbr);
 }

@@ -43,11 +43,11 @@ void		windows_init_late(struct s_mlx_context *mc)
 	(void)mc;
 }
 
-void		destroy_window(struct s_mlx_context *mc, t_window **w)
+void		destroy_window(struct s_mlx_context *mc, t_window *w)
 {
 	(void)mc;
 	(void)w;
-	printf("mlx_destroy_window %p\n", (*w));
+	printf("MLX destroy callback\n");
 	mc->window_nbr -= 1;
 }
 
@@ -97,12 +97,12 @@ int main()
 	{
 		t_window_list *np;
 
-		STAILQ_FOREACH(np, &mc->w_head, next)
-			// debug_window(&np->w);
-			render(&np->w);
-
+		STAILQ_FOREACH(np, &mc->w_head, next) {
+			if (!render(&np->w))
+				break ;
+		}
 		glfwPollEvents();
 	}
-
+	glfwTerminate();
 	return (0);
 }

@@ -77,7 +77,15 @@ void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void	destroy_callback(GLFWwindow *window)
 {
+	struct s_window_list *np;
+
 	(void)window;
+	printf("GLFW destroy callback\n");
+	STAILQ_FOREACH(np, &g_mlx_context.w_head, next) {
+		if (np->w.w == window)
+			// printf("I got the window\n");
+			g_callback.mlxwindowclose(&g_mlx_context, &np->w);
+	}
 }
 
 void		focus_test(GLFWwindow *w, int action)

@@ -24,10 +24,10 @@ void switch_mlx_mode(int key)
 
 }
 
-void lx_new_window(int key)
+void create_window(int key)
 {
 	(void)key;
-	new_window(g_mlx_context.vidmode_size.width, g_mlx_context.vidmode_size.height, "test");
+	new_window(&g_mlx_context, g_mlx_context.vidmode_size.width, g_mlx_context.vidmode_size.height, "test");
 }
 
 void debug(int key)
@@ -57,7 +57,7 @@ static t_key_function key_array[350] = {
 
 	// [GLFW_KEY_Q] = dummy,
 	// [GLFW_KEY_D] = debug,
-	[GLFW_KEY_N] = lx_new_window,
+	[GLFW_KEY_N] = create_window,
 	[GLFW_KEY_M] = switch_mlx_mode
 } ;
 

@@ -48,18 +48,18 @@ static t_vec3f base_textures[4] = {
 	{ 1., 1., 0 }
 };
 
-t_window	*new_window(int size_x, int size_y, char *title)
+t_window	*new_window(t_mlx_context *mlx_context, int size_x, int size_y, char *title)
 {
 	t_window_list	*nw;
 
 	nw = malloc(sizeof(t_window_list));
 	bzero(nw, sizeof(t_window_list));
 
-	if (STAILQ_EMPTY(&g_mlx_context.w_head))
+	if (STAILQ_EMPTY(&mlx_context->w_head))
 		nw->w.w = glfwCreateWindow(size_x, size_y, title, NULL, NULL);
 	else
-		nw->w.w = glfwCreateWindow(size_x, size_y, title, NULL, STAILQ_FIRST(&g_mlx_context.w_head)->w.w);
-	STAILQ_INSERT_TAIL(&g_mlx_context.w_head, nw, next);
+		nw->w.w = glfwCreateWindow(size_x, size_y, title, NULL, STAILQ_FIRST(&mlx_context->w_head)->w.w);
+	STAILQ_INSERT_TAIL(&mlx_context->w_head, nw, next);
 
 	int a[2];
 	glfwGetWindowSize(nw->w.w, &a[0], &a[1]);
@@ -72,7 +72,7 @@ t_window	*new_window(int size_x, int size_y, char *title)
 	apply_callback(&nw->w, &g_callback);
 	g_callback.windowfocus(nw->w.w, 1);
 
-	g_mlx_context.window_nbr += 1;
+	mlx_context->window_nbr += 1;
 	glfwMakeContextCurrent(nw->w.w);
 
 	bzero(&(nw->w.r), sizeof(t_renderer));
@@ -85,7 +85,70 @@ t_window	*new_window(int size_x, int size_y, char *title)
 	init_renderer(&(nw->w.r));
 	glfwMakeContextCurrent(0);
 
-	printf("%p\n", nw);
-	printf("%p vs %p\n", &nw, &nw->w);
+	// printf("%p\n", nw);
+	// printf("%p vs %p\n", &nw, &nw->w);
 	return (&nw->w);
+}
+
+int		clear_window(t_mlx_context *mlx_context, t_window *window)
+{
+	(void)mlx_context;
+
+	glfwMakeContextCurrent(window->w);
+	// glBindTexture(GL_TEXTURE_2D, window->r.texture);
+
+	t_renderer *r = &window->r;
+	(void)r;
+	int w = X_SIZE;
+	int h = Y_SIZE;
+	int size = w * h ;
+
+	t_vec4f *img = malloc(sizeof(t_vec4f) * size);
+		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, img);
+
+	for (int i = 0; i < size; ++i)
+	{
+		img[i] = (t_vec4f){
+			0.,
+			0.,
+			0.,
+			1.
+		};
+	}
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_FLOAT, img);
+	free(img);
+	return (1);
+}
+
+int		pixel_put(t_mlx_context *mlx_context, t_window *window, int x, int y, int color)
+{
+	(void)mlx_context;
+
+	glfwMakeContextCurrent(window->w);
+	// glBindTexture(GL_TEXTURE_2D, window->r.texture);
+
+	t_renderer *r = &window->r;
+	(void)r;
+	int w = X_SIZE;
+	int h = Y_SIZE;
+	int size = w * h ;
+
+	t_vec4f *img = malloc(sizeof(t_vec4f) * size);
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, img);
+
+	unsigned int c = color;
+				img[x + y * w] = (t_vec4f){
+					((0xff000000 & c) >> 24) / 255. ,
+					((0xff0000 & c) >> 16) / 255. ,
+					((0xff00 & c) >> 8) / 255. ,
+					((0xff & c)) / 255.
+				};
+				// printf("%f, %f, %f, %f\n", img[_x + _y * w].x, img[_x + _y * w].y, img[_x + _y * w].z, img[_x + _y * w].w);
+			// }
+		// }
+	// }
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_FLOAT, img);
+	free(img);
+	return (1);
+
 }

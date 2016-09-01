@@ -75,19 +75,31 @@ void			assign_shader(t_renderer *r, char *v_path, char *f_path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	unsigned int w = 16 ; //r->window_size.x;
-	unsigned int h = 16 ; //r->window_size.y;
+	unsigned int w = X_SIZE;
+	unsigned int h = Y_SIZE;
 	unsigned int size = w * h ;
 
 	t_vec4f *img = malloc(sizeof(t_vec4f) * size);
+	unsigned int x = 0;
+	unsigned int y = 0;
 	for (unsigned int i = 0; i < size; ++i)
 	{
+		float _x = (float)x / (float)w;
+		float _y = (float)y / (float)h;
+
 		img[i] = (t_vec4f){
-			color_table[j % COLOR_LEN].x,
-			color_table[j % COLOR_LEN].y,
+			_x * color_table[j % COLOR_LEN].x,
+			_y * color_table[j % COLOR_LEN].y,
 			color_table[j % COLOR_LEN].z,
 			1.
 		};
+
+		x += 1;
+		if (x >= w) {
+			x = 0;
+			y += 1;
+		}
+
 	}
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_FLOAT, img);
 	free(img);

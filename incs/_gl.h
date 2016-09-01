@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   _gl.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: adebray <adebray@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/14 01:12:47 by adebray           #+#    #+#             */
-/*   Updated: 2016/08/15 23:50:04 by adebray          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef _GL_H
 # define _GL_H
 
@@ -40,10 +28,17 @@ typedef double	t_vec4d __attribute__((ext_vector_type(4)));
 typedef struct s_mlx_context t_mlx_context ;
 typedef struct s_window t_window ;
 
-typedef void (*MLXinitearlyfun)(t_mlx_context *) ;
-typedef void (*MLXinitlatefun)(t_mlx_context *) ;
+typedef void (*MLXinitearlyfun)(t_mlx_context *);
+typedef void (*MLXinitlatefun)(t_mlx_context *);
+
 typedef void (*MLXwindowclosefun)(t_mlx_context *, t_window *);
 typedef void (*MLXwindowresize)(t_mlx_context *, t_window *);
+
+typedef void (*MLXloopearlyfun)(t_mlx_context *);
+typedef void (*MLXlooplatefun)(t_mlx_context *);
+
+// -- MLX MANDATORY
+typedef int (*MLXloopfun)(void *param) ;
 
 typedef struct s_callback	t_callback;
 struct						s_callback {
@@ -69,6 +64,11 @@ struct						s_callback {
 
 	MLXinitearlyfun			initearlyfun;
 	MLXinitlatefun			initlatefun;
+
+	MLXloopearlyfun			earlyloopfun;
+	MLXloopfun				loopfun;
+	MLXlooplatefun			lateloopfun;
+
 	MLXwindowclosefun		mlxwindowclose;
 	MLXwindowresize			mlxwindowresize;
 };
@@ -115,26 +115,38 @@ enum e_mlx_mode {
 typedef struct s_renderer	t_renderer;
 struct		s_renderer {
 	unsigned int	mode;
-
-	unsigned int	vertex_shader;
-	unsigned int	fragment_shader;
-	unsigned int	program;
-
 	unsigned int	VAO;
-	unsigned int	VBOP;
-	unsigned int	VBOC;
-	unsigned int	VBOT;
 
-	t_vec2i			window_size;
-	unsigned int	vertices_nbr;
-	t_vec3f			*v_pos;
-	t_vec3f			*v_col;
-	t_vec3f			*v_tex;
+	struct {
+		unsigned int	vertex_shader;
+		unsigned int	fragment_shader;
+		unsigned int	program;
+	};
 
-	int				vpos_location;
-	int				vcol_location;
-	unsigned int	vtex_location;
-	unsigned int	texture;
+	struct {
+		unsigned int	VBOP;
+		unsigned int	VBOC;
+		unsigned int	VBOT;
+	};
+
+	struct {
+		unsigned int	vertices_nbr;
+		t_vec3f			*v_pos;
+		t_vec3f			*v_col;
+	};
+	struct {
+		int				vpos_location;
+		int				vcol_location;
+	};
+
+	struct {
+		t_vec2i			window_size;
+		t_vec3f			*v_tex;
+	};
+	struct {
+		unsigned int	vtex_location;
+		unsigned int	texture;
+	};
 };
 
 typedef struct s_window	t_window;
@@ -156,7 +168,9 @@ extern t_callback g_callback ;
 
 // window.c
 void			*init(void);
-t_window		*new_window(int size_x, int size_y, char *title);
+t_window		*new_window(t_mlx_context *mlx_context, int size_x, int size_y, char *title);
+int				clear_window(t_mlx_context *mlx_context, t_window *window);
+int				pixel_put(t_mlx_context *mlx_context, t_window *window, int x, int y, int color);
 
 // vertices.c
 t_vec4f			*new_vertices(unsigned int size);

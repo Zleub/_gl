@@ -27,6 +27,7 @@ typedef double	t_vec4d __attribute__((ext_vector_type(4)));
 
 typedef struct s_mlx_context t_mlx_context ;
 typedef struct s_window t_window ;
+typedef struct s_image_list t_image ;
 
 typedef void (*MLXinitearlyfun)(t_mlx_context *);
 typedef void (*MLXinitlatefun)(t_mlx_context *);
@@ -62,12 +63,12 @@ struct						s_callback {
 	GLFWdropfun				drop;
 	GLFWjoystickfun			joystick;
 
-	MLXinitearlyfun			initearlyfun;
-	MLXinitlatefun			initlatefun;
+	MLXinitearlyfun			initearly;
+	MLXinitlatefun			initlate;
 
-	MLXloopearlyfun			earlyloopfun;
-	MLXloopfun				loopfun;
-	MLXlooplatefun			lateloopfun;
+	MLXloopearlyfun			earlyloop;
+	MLXloopfun				loop;
+	MLXlooplatefun			lateloop;
 
 	MLXwindowclosefun		mlxwindowclose;
 	MLXwindowresize			mlxwindowresize;
@@ -197,10 +198,19 @@ void			error_callback(int error, const char* description);
 void			mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void			scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void			apply_callback(t_window *window, t_callback *callback);
+void			loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param);
 
 // util.c
 void			version(void);
 void			init_fps(t_fps *fps);
 void			run_fps(t_window *window, t_fps *fps);
+
+// image.c
+void			*new_image(t_mlx_context *mlx_context, int width, int height);
+char			*get_data_addr(t_image *mlx_context, int *bits_per_pixel, int *size_line, int *endian);
+int				put_image_to_window(t_mlx_context *mlx_context, t_window *window, t_image *image, int x, int y);
+// core.c
+
+int				loop(t_mlx_context *mc);
 
 #endif

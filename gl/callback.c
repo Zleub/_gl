@@ -166,6 +166,13 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	cam_w += yoffset / 10;
 }
 
+void loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param)
+{
+	(void)mlx_context;
+	(void)param;
+	g_callback.loop = f;
+}
+
 void apply_callback(t_window *window, t_callback *callback)
 {
 	glfwSetErrorCallback(callback->error);

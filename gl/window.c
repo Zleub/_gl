@@ -10,21 +10,23 @@ struct s_mlx_context g_mlx_context = {
 
 	0,
 	STAILQ_HEAD_INITIALIZER(g_mlx_context.w_head),
+	STAILQ_HEAD_INITIALIZER(g_mlx_context.i_head),
 	NULL,
 	NULL
 };
 
 void	*init(void)
 {
-	if (g_callback.initearlyfun)
-		g_callback.initearlyfun(&g_mlx_context);
+	if (g_callback.initearly)
+		g_callback.initearly(&g_mlx_context);
 
 	STAILQ_INIT(&g_mlx_context.w_head);
+	STAILQ_INIT(&g_mlx_context.i_head);
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
 
-	if (g_callback.initlatefun)
-		g_callback.initlatefun(&g_mlx_context);
+	if (g_callback.initlate)
+		g_callback.initlate(&g_mlx_context);
 
 	return (&g_mlx_context);
 }
@@ -108,12 +110,7 @@ int		clear_window(t_mlx_context *mlx_context, t_window *window)
 
 	for (int i = 0; i < size; ++i)
 	{
-		img[i] = (t_vec4f){
-			0.,
-			0.,
-			0.,
-			1.
-		};
+		img[i] = (t_vec4f){ 0., 0., 0., 0. };
 	}
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_FLOAT, img);
 	free(img);
@@ -137,16 +134,12 @@ int		pixel_put(t_mlx_context *mlx_context, t_window *window, int x, int y, int c
 	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, img);
 
 	unsigned int c = color;
-				img[x + y * w] = (t_vec4f){
-					((0xff000000 & c) >> 24) / 255. ,
-					((0xff0000 & c) >> 16) / 255. ,
-					((0xff00 & c) >> 8) / 255. ,
-					((0xff & c)) / 255.
-				};
-				// printf("%f, %f, %f, %f\n", img[_x + _y * w].x, img[_x + _y * w].y, img[_x + _y * w].z, img[_x + _y * w].w);
-			// }
-		// }
-	// }
+	img[x + y * w] = (t_vec4f){
+		((0xff000000 & c) >> 24) / 255. ,
+		((0xff0000 & c) >> 16) / 255. ,
+		((0xff00 & c) >> 8) / 255. ,
+		((0xff & c)) / 255.
+	};
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_FLOAT, img);
 	free(img);
 	return (1);

@@ -54,110 +54,40 @@ void		destroy_window(struct s_mlx_context *mc, t_window *w)
 	mc->window_nbr -= 1;
 }
 
-void focus_test(GLFWwindow *w, int i);
-void destroy_callback(GLFWwindow *window);
-int loop_callback(void *param);
-
-t_callback g_callback = (t_callback){
-	/* error */				error_callback,
-
-	/* windowpos */			NULL,
-	/* windowsize */		resize_callback,
-	/* windowclose */		destroy_callback,
-	/* windowrefresh */		NULL,
-	/* windowfocus */		focus_test,
-	/* windowiconify */		NULL,
-	/* framebuffersize */	NULL,
-
-	/* mousebutton */		mouse_button_callback,
-	/* cursorpos */			NULL,
-	/* cursorenter */		NULL,
-	/* scroll */			scroll_callback,
-	/* key */				key_callback,
-	/* uchar */				NULL,
-	/* charmods */			NULL,
-	/* drop */				NULL,
-	/* joystick */			NULL,
-
-	/* -------------------*/
-
-	/* initearly */			NULL,
-	/* initlate */			windows_init_late,
-
-	/* earlyloop */			NULL,
-	/* loop */				loop_callback,
-	/* lateloop */			NULL,
-
-	/* windowclose */		destroy_window,
-	/* windowresize */		NULL
-} ;
-
 extern t_mlx_context g_mlx_context;
+extern t_callback g_callback;
 
-#include <sys/time.h>
 int loop_callback(void *param)
 {
+	static int time;
 	double dt = *((double*)param);
-	int dti = dt / (1000000 / 4);
+	int dti = dt;
+	time += dti;
 
-	mlx_pixel_put(&g_mlx_context, &STAILQ_FIRST(&g_mlx_context.w_head)->w, dti, 10, 0xfa000000);
-	if (dti == 10) {
-		mlx_clear_window(&g_mlx_context, &STAILQ_FIRST(&g_mlx_context.w_head)->w);
-	}
-	else if (dti == 11) {
-		void *img = mlx_new_image(&g_mlx_context, 10, 10);
-	}
-	return (1);
-}
-
-// int mlxSetLoopCallback(t_mlx_context *mlx_context, MLXloopfun loopfun, void *param)
-// {
-
-// }
-
-int loop(t_mlx_context *mc)
-{
-	static double dt;
-	static double time;
-	struct timeval tval_before, tval_after, tval_result;
-
-	if (g_callback.earlyloopfun)
-		g_callback.earlyloopfun(mc);
-
-	while (mc->window_nbr)
-	{
-		t_window_list *np;
-
-		gettimeofday(&tval_before, NULL);
-		STAILQ_FOREACH(np, &mc->w_head, next) {
-
-			if (!render(&np->w))
-				break ;
-
-			if (g_callback.loopfun) {
-				g_callback.loopfun((void*)(&time));
-			}
-
-		}
-
-		glfwPollEvents();
-
-		gettimeofday(&tval_after, NULL);
-		timersub(&tval_after, &tval_before, &tval_result);
-		dt = tval_result.tv_sec * 1000000 + tval_result.tv_usec;
-		time += dt;
-	}
-
-	if (g_callback.lateloopfun)
-		g_callback.lateloopfun(mc);
-
+	// printf("%d\n", time);
+	mlx_pixel_put(&g_mlx_context, &STAILQ_FIRST(&g_mlx_context.w_head)->w, dti % 10, dti % 10, time * 127);
+	// if (dti == 10) {
+	// 	mlx_clear_window(&g_mlx_context, &STAILQ_FIRST(&g_mlx_context.w_head)->w);
+	// }
+	// else if (dti == 11) {
+		// void *img = mlx_new_image(&g_mlx_context, 10, 10);
+		// struct {
+		// 	int bits_per_pixel;
+		// 	int size_line;
+		// 	int endian;
+		// } img_data;
+		// char *data = mlx_get_data_addr(img, &img_data.bits_per_pixel, &img_data.size_line, &img_data.endian);
+	// }
 	return (1);
 }
 
 int main()
 {
-	struct s_mlx_context *mc = mlx_init();
+	g_callback.initlate = windows_init_late;
+	g_callback.loop = loop_callback;
+	g_callback.mlxwindowclose = destroy_window;
 
+	struct s_mlx_context *mc = mlx_init();
 	mlx_loop(mc);
 	glfwTerminate();
 	return (0);

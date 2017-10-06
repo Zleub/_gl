@@ -1,7 +1,6 @@
 #include <_gl.h>
 #include <stdio.h>
 
-
 t_vec4f	*new_vertices(unsigned int size)
 {
 	t_vec4f		*v;
@@ -11,7 +10,6 @@ t_vec4f	*new_vertices(unsigned int size)
 
 	return (v);
 }
-
 
 #include <time.h>
 #include <stdlib.h>

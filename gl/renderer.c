@@ -1,6 +1,5 @@
 #include <_gl.h>
 #include <mlx.h>
-#include <stdio.h>
 
 void			init_renderer(t_renderer *r)
 {
@@ -138,10 +137,14 @@ int				render(t_window *window)
 		// }
 
 		glActiveTexture(0);
-		if (window->r.mode == MONO)
+		if (window->r.mode == MONO) {
+			printf("MONO %s:  glBindTexture -> %d\n", __func__, 1);
 			glBindTexture(GL_TEXTURE_2D, 1);
-		else
+		}
+		else {
+			printf("%s:  glBindTexture -> %d\n", __func__, window->r.texture);
 			glBindTexture(GL_TEXTURE_2D, window->r.texture);
+		}
 
 		// printf("%d\n", window->r.program);
 		glUseProgram(window->r.program);

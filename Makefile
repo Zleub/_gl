@@ -15,21 +15,23 @@ SRC = \
 OBJ = $(SRC:.c=.o)
 
 CC = clang
-CFLAGS = -arch x86_64 -Os -Wall -Werror -Wextra -Iincs
+CFLAGS = -O3 -Wall -Werror -Wextra -Iincs
 LDFLAGS = -Llibs/glfw/src -lglfw3 -framework Cocoa -framework OpenGL -framework OpenCL -framework IOKit -framework CoreVideo
 
-all: $(NAME)
+all: glfw $(NAME) _gl test
 
 $(NAME): $(OBJ) main.c
 	$(CC) $(LDFLAGS) $(CFLAGS) -o $(NAME) $^
+
+_gl: $(OBJ)
+	ar rc lib_gl.a $^
+	ranlib lib_gl.a
 
 glfw:
 	(cd libs/glfw ; cmake . ; make)
 
 clean:
 	rm -rf $(OBJ)
-	rm -rf $(KC)
-	rm -rf $(KOBJ)
 
 fclean: clean
 	rm -rf $(NAME)
@@ -37,5 +39,12 @@ fclean: clean
 re: fclean all test
 
 test: $(OBJ) main_test.c
-	$(CC) -framework OpenGL -framework AppKit -lmlx $(CFLAGS) -o temoin main_test.c
-	$(CC) $(LDFLAGS) $(CFLAGS) -o test $^
+	$(CC) -O3 -Wall -Werror -Wextra -lmlx -framework OpenGL -framework AppKit -o temoin main_test.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -o test $^
+
+run:
+	./temoin &
+	./test &
+
+kill:
+	pkill temoin test

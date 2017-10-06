@@ -8,12 +8,12 @@ t_vec3f mouse ;
 
 typedef void(*t_key_function)(int key) ;
 
-void dummy(int key)
+void	dummy(int key)
 {
 	printf("dummy %d\n", key);
 }
 
-void switch_mlx_mode(int key)
+void	switch_mlx_mode(int key)
 {
 	(void)key;
 
@@ -24,13 +24,13 @@ void switch_mlx_mode(int key)
 
 }
 
-void create_window(int key)
+void	create_window(int key)
 {
 	(void)key;
 	new_window(&g_mlx_context, g_mlx_context.vidmode_size.width, g_mlx_context.vidmode_size.height, "test");
 }
 
-void debug(int key)
+void	debug(int key)
 {
 	(void)key;
 	printf("debug\n");
@@ -87,7 +87,7 @@ void	destroy_callback(GLFWwindow *window)
 	}
 }
 
-void		focus_test(GLFWwindow *window, int action)
+void	focus_test(GLFWwindow *window, int action)
 {
 	(void)window;
 	(void)action;
@@ -136,7 +136,7 @@ void	mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	(void)button;
 	(void)action;
 	(void)mods;
-	printf("%d\n", button);
+	printf("%s: %d\n", __func__, button);
 	int width ;
 	int height ;
 
@@ -159,21 +159,21 @@ void	mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	}
 }
 
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+void	scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	(void)window;
 	(void)xoffset;
 	cam_w += yoffset / 10;
 }
 
-void loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param)
+void	loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param)
 {
 	(void)mlx_context;
 	(void)param;
 	g_callback.loop = f;
 }
 
-void apply_callback(t_window *window, t_callback *callback)
+void	apply_callback(t_window *window, t_callback *callback)
 {
 	glfwSetErrorCallback(callback->error);
 

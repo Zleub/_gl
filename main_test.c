@@ -37,20 +37,25 @@ int main()
 		int endian;
 	} dt ;
 	data[0] = mlx_get_data_addr(image[0], &dt.bits_per_pixel, &dt.size_line, &dt.endian);
+	printf("%d, %d, %d\n", dt.bits_per_pixel, dt.size_line, dt.endian);
 	data[1] = mlx_get_data_addr(image[1], &dt.bits_per_pixel, &dt.size_line, &dt.endian);
+	printf("%d, %d, %d\n", dt.bits_per_pixel, dt.size_line, dt.endian);
 	data[2] = mlx_get_data_addr(image[2], &dt.bits_per_pixel, &dt.size_line, &dt.endian);
-
 	printf("%d, %d, %d\n", dt.bits_per_pixel, dt.size_line, dt.endian);
 
-	for (int i = 0; i < (100 * 100) / 4; i += 1)
+	for (int i = 0; i < (100 * 100); i += 1)
 	{
 		((int*)data[0])[i] = 0x00FF0000;
 		((int*)data[1])[i] = 0x0000FF00;
 		((int*)data[2])[i] = 0x000000FF;
 	}
 
-	mlx_loop_hook(mlx, f, NULL);
+	mlx_put_image_to_window(mlx, window, image[0], 0, 0);
+	mlx_put_image_to_window(mlx, window, image[1], 100, 0);
+	mlx_put_image_to_window(mlx, window, image[2], 0, 100);
+
+
+	// mlx_loop_hook(mlx, f, NULL);
 	mlx_loop(mlx);
 	return 0;
 }
-

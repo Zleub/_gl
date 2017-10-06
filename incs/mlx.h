@@ -39,11 +39,11 @@ struct s_mlx_context
 	t_window								*active_window;
 } ;
 
-# define mlx_init				init
-# define mlx_new_window			new_window
-# define mlx_clear_window		clear_window
-# define mlx_pixel_put			pixel_put
-# define mlx_get_data_addr		get_data_addr
+# define mlx_init					init
+# define mlx_new_window				new_window
+# define mlx_clear_window			clear_window
+# define mlx_pixel_put				pixel_put
+# define mlx_get_data_addr			get_data_addr
 # define mlx_put_image_to_window	put_image_to_window
 
 # define mlx_loop			loop

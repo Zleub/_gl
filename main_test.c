@@ -9,7 +9,7 @@
 #include <mlx.h>
 
 void *mlx;
-void *window;
+void *window[2];
 void *image[3];
 char *data[3];
 
@@ -18,7 +18,7 @@ int f(void *p)
 	static int count;
 
 	(void)p;
-	mlx_put_image_to_window(mlx, window, image[count % 3], 0, 0);
+	mlx_put_image_to_window(mlx, window[0], image[count % 3], 0, 0);
 	count += 1;
 
 	return (1);
@@ -27,7 +27,8 @@ int f(void *p)
 int main()
 {
 	mlx = mlx_init();
-	window = mlx_new_window(mlx, 800, 600, "Hello");
+	window[0] = mlx_new_window(mlx, 800, 600, "Hello1");
+	window[1] = mlx_new_window(mlx, 800, 600, "Hello2");
 	image[0] = mlx_new_image(mlx, 100, 100);
 	image[1] = mlx_new_image(mlx, 100, 100);
 	image[2] = mlx_new_image(mlx, 100, 100);
@@ -50,9 +51,10 @@ int main()
 		((int*)data[2])[i] = 0x000000FF;
 	}
 
-	mlx_put_image_to_window(mlx, window, image[0], 0, 0);
-	mlx_put_image_to_window(mlx, window, image[1], 100, 0);
-	mlx_put_image_to_window(mlx, window, image[2], 0, 100);
+	mlx_put_image_to_window(mlx, window[0], image[0], 0, 0);
+	mlx_put_image_to_window(mlx, window[0], image[1], 100, 0);
+	mlx_put_image_to_window(mlx, window[0], image[2], 0, 100);
+	mlx_put_image_to_window(mlx, window[1], image[2], 0, 100);
 
 
 	// mlx_loop_hook(mlx, f, NULL);

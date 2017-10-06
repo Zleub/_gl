@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 struct s_mlx_context g_mlx_context = {
-	MONO,
+	MULTIPLE, // MONO,
 
 	{ 0, 0 },
 	{ 0, 0 },
@@ -85,6 +85,7 @@ t_window	*new_window(t_mlx_context *mlx_context, int size_x, int size_y, char *t
 	nw->w.r.window_size = (t_vec2i){ size_x, size_y };
 
 	init_renderer(&(nw->w.r));
+	nw->w.r.mode = mlx_context->mode;
 	glfwMakeContextCurrent(0);
 
 	// printf("%p\n", nw);

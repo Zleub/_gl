@@ -11,8 +11,8 @@ void		*new_image(t_mlx_context *mlx_context, int width, int height)
 	ni->size.height = height;
 	ni->data = malloc(width * height * sizeof(int));
 	bzero(ni->data, width * height * sizeof(int));
-	glGenTextures(1, &ni->ref);
-	printf("%s: glGenTextures %d\n", __func__, ni->ref);
+	// glGenTextures(1, &ni->ref);
+	// printf("%s: glGenTextures %d\n", __func__, ni->ref);
 	STAILQ_INSERT_TAIL(&mlx_context->i_head, ni, next);
 	return (ni);
 }
@@ -32,18 +32,24 @@ int		put_image_to_window(t_mlx_context *mlx_context, t_window *window, t_image *
 	glfwMakeContextCurrent(window->w);
 	(void)x;
 	(void)y;
-	printf("%s:  glBindTexture -> %d\n", __func__, image->ref);
-	glBindTexture(GL_TEXTURE_2D, image->ref);
-	// glTexImage2D(
-	// 	/* target */ GL_TEXTURE_2D,
-	// 	/* level */ 0,
-	// 	/* internalFormat */ GL_RGBA,
-	// 	/* width */ image->size.width,
-	// 	/* height */ image->size.height,
-	// 	/* border */ 0,
-	// 	/* format */ GL_RGBA,
-	// 	/* type */ GL_FLOAT,
-	// 	/* data */ image->data
-	// );
+	(void)image;
+	glBindTexture(GL_TEXTURE_2D, window->r.texture);
+	printf("%d %d\n", window->size.x, window->size.y);
+	glTexImage2D(
+		/* target */ GL_TEXTURE_2D,
+		/* level */ 0,
+		/* internalFormat */ GL_RGBA,
+		/* width */ window->size.x,
+		/* height */ window->size.y,
+		/* border */ 0,
+		/* format */ GL_BGRA,
+		/* type */ GL_UNSIGNED_INT,
+		/* data */ image->data
+	);
+	GLenum err;
+	while((err = glGetError()) != GL_NO_ERROR)
+	{
+		printf("%s glError: %x\n", __func__, err);
+	}
 	return (1);
 }

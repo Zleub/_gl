@@ -6,7 +6,6 @@ void			init_renderer(t_renderer *r)
 	glGenVertexArrays(1, &r->VAO);
 	glBindVertexArray(r->VAO);
 
-
 	assign_shader(r, "res/std_vertex.glsl", "res/std_fragment.glsl");
 }
 
@@ -138,11 +137,9 @@ int				render(t_window *window)
 
 		glActiveTexture(0);
 		if (window->r.mode == MONO) {
-			printf("MONO %s:  glBindTexture -> %d\n", __func__, 1);
 			glBindTexture(GL_TEXTURE_2D, 1);
 		}
 		else {
-			printf("%s:  glBindTexture -> %d\n", __func__, window->r.texture);
 			glBindTexture(GL_TEXTURE_2D, window->r.texture);
 		}
 

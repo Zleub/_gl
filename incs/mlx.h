@@ -24,6 +24,9 @@ struct s_image_list {
 	STAILQ_ENTRY(s_image_list)	next;
 };
 
+/**
+ * \todo merge mlx_context with renderer
+ */
 typedef struct s_mlx_context t_mlx_context;
 struct s_mlx_context
 {

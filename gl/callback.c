@@ -3,16 +3,22 @@
 #include <stdio.h>
 
 extern struct s_mlx_context g_mlx_context;
-extern float cam_w;
+float cam_w;
 t_vec3f mouse ;
 
 typedef void(*t_key_function)(int key) ;
 
+/**
+ * A dummy functions for keys events
+ */
 void	dummy(int key)
 {
 	printf("dummy %d\n", key);
 }
 
+/**
+ * \deprecated Useless/Forgiven Usage
+ */
 void	switch_mlx_mode(int key)
 {
 	(void)key;
@@ -24,18 +30,30 @@ void	switch_mlx_mode(int key)
 
 }
 
+/**
+ * \deprecated Useless/Forgiven Usage
+ */
 void	create_window(int key)
 {
 	(void)key;
 	new_window(&g_mlx_context, g_mlx_context.vidmode_size.width, g_mlx_context.vidmode_size.height, "test");
 }
 
+/**
+ * \deprecated Useless/Forgiven Usage
+ */
 void	debug(int key)
 {
 	(void)key;
 	printf("debug\n");
 }
 
+/**
+ * A static array for easy keys events bindings.
+ *
+ * \todo A duplicate should be handled by window,
+ * minimized on key/value access.
+ */
 static t_key_function key_array[350] = {
 	[GLFW_KEY_1] = dummy,
 	[GLFW_KEY_2] = dummy,
@@ -61,6 +79,9 @@ static t_key_function key_array[350] = {
 	[GLFW_KEY_M] = switch_mlx_mode
 } ;
 
+/**
+ * The default key callback #g_callback
+ */
 void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	(void)window;

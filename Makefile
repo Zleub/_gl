@@ -40,7 +40,9 @@ re: fclean all test
 
 test: $(OBJ) main_test.c
 	$(CC) -O3 -Wall -Werror -Wextra -lmlx -framework OpenGL -framework AppKit -o temoin main_test.c
+	@echo [temoin BUILT]
 	$(CC) $(CFLAGS) $(LDFLAGS) -o test $^
+	@echo [test BUILT]
 
 run:
 	./temoin &

@@ -93,6 +93,9 @@ t_window	*new_window(t_mlx_context *mlx_context, int size_x, int size_y, char *t
 	return (&nw->w);
 }
 
+/**
+ * Need to be reworked
+ */
 int		clear_window(t_mlx_context *mlx_context, t_window *window)
 {
 	(void)mlx_context;
@@ -107,7 +110,7 @@ int		clear_window(t_mlx_context *mlx_context, t_window *window)
 	int size = w * h ;
 
 	t_vec4f *img = malloc(sizeof(t_vec4f) * size);
-		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, img);
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, img);
 
 	for (int i = 0; i < size; ++i)
 	{

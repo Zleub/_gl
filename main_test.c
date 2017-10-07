@@ -18,7 +18,8 @@ int f(void *p)
 	static int count;
 
 	(void)p;
-	mlx_put_image_to_window(mlx, window[0], image[count % 3], 0, 0);
+	mlx_clear_window(mlx, window[0]);
+	mlx_put_image_to_window(mlx, window[0], image[0], count / 100, 0);
 	count += 1;
 
 	return (1);
@@ -28,7 +29,7 @@ int main()
 {
 	mlx = mlx_init();
 	window[0] = mlx_new_window(mlx, 800, 600, "Hello1");
-	window[1] = mlx_new_window(mlx, 800, 600, "Hello2");
+	// window[1] = mlx_new_window(mlx, 800, 600, "Hello2");
 	image[0] = mlx_new_image(mlx, 100, 100);
 	image[1] = mlx_new_image(mlx, 100, 100);
 	image[2] = mlx_new_image(mlx, 100, 100);
@@ -50,11 +51,12 @@ int main()
 		((int*)data[1])[i] = 0x0000FF00;
 		((int*)data[2])[i] = 0x000000FF;
 	}
+	((int*)data[0])[0] = 0x00FF00FF;
 
 	mlx_put_image_to_window(mlx, window[0], image[0], 0, 0);
 	mlx_put_image_to_window(mlx, window[0], image[1], 100, 0);
 	mlx_put_image_to_window(mlx, window[0], image[2], 0, 100);
-	mlx_put_image_to_window(mlx, window[1], image[2], 0, 100);
+	// mlx_put_image_to_window(mlx, window[1], image[2], 0, 100);
 
 
 	// mlx_loop_hook(mlx, f, NULL);

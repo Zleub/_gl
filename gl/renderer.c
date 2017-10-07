@@ -6,6 +6,7 @@ void			init_renderer(t_renderer *r)
 	glGenVertexArrays(1, &r->VAO);
 	glBindVertexArray(r->VAO);
 
+	glfwSwapInterval(0);
 	assign_shader(r, "res/std_vertex.glsl", "res/std_fragment.glsl");
 }
 
@@ -80,15 +81,18 @@ void			assign_shader(t_renderer *r, char *v_path, char *f_path)
 	t_vec4f *img = malloc(sizeof(t_vec4f) * size);
 	unsigned int x = 0;
 	unsigned int y = 0;
+	(void)color_table;
 	for (unsigned int i = 0; i < size; ++i)
 	{
 		float _x = (float)x / (float)w;
 		float _y = (float)y / (float)h;
 
+		(void)_x;
+		(void)_y;
 		img[i] = (t_vec4f){
-			_x * color_table[j % COLOR_LEN].x,
-			_y * color_table[j % COLOR_LEN].y,
-			color_table[j % COLOR_LEN].z,
+			0., // _x * color_table[j % COLOR_LEN].x,
+			0., // _y * color_table[j % COLOR_LEN].y,
+			0., // color_table[j % COLOR_LEN].z,
 			1.
 		};
 

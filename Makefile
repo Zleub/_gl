@@ -15,10 +15,11 @@ SRC = \
 OBJ = $(SRC:.c=.o)
 
 CC = clang
-CFLAGS = -O3 -Wall -Werror -Wextra -Iincs
+CFLAGS = -O3 -Wall -Werror -Wextra -Iincs -Ilibs/glfw/include/GLFW
 LDFLAGS = -Llibs/glfw/src -lglfw3 -framework Cocoa -framework OpenGL -framework OpenCL -framework IOKit -framework CoreVideo
+GLFW = libs/glfw/src/libglfw3.a
 
-all: glfw $(NAME) _gl test
+all: $(GLFW) $(NAME) _gl test
 
 $(NAME): $(OBJ) main.c
 	$(CC) $(LDFLAGS) $(CFLAGS) -o $(NAME) $^
@@ -27,8 +28,8 @@ _gl: $(OBJ)
 	ar rc lib_gl.a $^
 	ranlib lib_gl.a
 
-glfw:
-	(cd libs/glfw ; cmake . ; make)
+libs/glfw/src/libglfw3.a:
+	(cd libs/glfw ; cmake . ; make) ;
 
 clean:
 	rm -rf $(OBJ)
@@ -38,11 +39,9 @@ fclean: clean
 
 re: fclean all test
 
-test: $(OBJ) main_test.c
-	$(CC) -O3 -Wall -Werror -Wextra -lmlx -framework OpenGL -framework AppKit -o temoin main_test.c
-	@echo [temoin BUILT]
-	$(CC) $(CFLAGS) $(LDFLAGS) -o test $^
-	@echo [test BUILT]
+test: $(OBJ)
+	$(CC) -O3 -Wall -Werror -Wextra -lmlx -framework OpenGL -framework AppKit -o temoin demo/main_test.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -o main_test -L. -l_gl demo/main_test.c
 
 run:
 	./temoin &

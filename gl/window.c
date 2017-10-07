@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 struct s_mlx_context g_mlx_context = {
-	MULTIPLE, // MONO,
+	MONO,
 
 	{ 0, 0 },
 	{ 0, 0 },

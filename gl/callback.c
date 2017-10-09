@@ -2,8 +2,13 @@
 #include <mlx.h>
 #include <stdio.h>
 
-extern struct s_mlx_context g_mlx_context;
+/**
+ * \deprecated Useless/Forgiven Usage
+ */
 float cam_w;
+/**
+ * \deprecated Useless/Forgiven Usage
+ */
 t_vec3f mouse ;
 
 typedef void(*t_key_function)(int key) ;
@@ -96,6 +101,9 @@ void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 }
 
+/**
+ * \deprecated Useless/Forgiven Usage
+ */
 void	destroy_callback(GLFWwindow *window)
 {
 	struct s_window_list *np;
@@ -108,6 +116,10 @@ void	destroy_callback(GLFWwindow *window)
 	}
 }
 
+/**
+ * The handler for the GLFW focus callback
+ * \todo Should trigger a userland MLX focus callback
+ */
 void	focus_test(GLFWwindow *window, int action)
 {
 	(void)window;
@@ -117,13 +129,16 @@ void	focus_test(GLFWwindow *window, int action)
 	(void)window;
 	printf("GLFW focus callback\n");
 	STAILQ_FOREACH(np, &g_mlx_context.w_head, next) {
-		if (np->w.w == window && g_callback.mlxwindowclose)
+		if (np->w.w == window)
 			g_mlx_context.active_window = &np->w;
 	}
 
 }
 
-
+/**
+ * The handler for the GLFW resize callback
+ * \todo Should trigger a userland MLX resize callback
+ */
 void	resize_callback(GLFWwindow *window, int width, int height)
 {
 	(void)window;
@@ -145,12 +160,19 @@ void	resize_callback(GLFWwindow *window, int width, int height)
 
 }
 
+/**
+ * \deprecated Useless/Forgiven Usage
+ */
 void	error_callback(int error, const char* description)
 {
 	(void)error;
 	puts(description);
 }
 
+/**
+ * The handler for the GLFW mouse button callback
+ * \todo Should trigger a userland MLX mouse button callback
+ */
 void	mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	(void)window;
@@ -178,8 +200,15 @@ void	mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 			0.
 		};
 	}
+
+	if (g_callback.mlxmousebutton)
+		g_callback.mlxmousebutton(button, mouse.x, mouse.y, NULL);
 }
 
+/**
+ * The handler for the GLFW scroll callback
+ * \todo Should trigger a userland MLX scroll callback
+ */
 void	scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	(void)window;
@@ -187,13 +216,32 @@ void	scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	cam_w += yoffset / 10;
 }
 
-void	loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param)
+/**
+ * The loop_callback setter
+ * \todo Handle param
+ */
+void	loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param )
 {
 	(void)mlx_context;
 	(void)param;
 	g_callback.loop = f;
 }
 
+/**
+ * The loop_callback setter
+ * \todo Handle param
+ */
+int		mouse_hook(t_window *window, int (*f)(), void *param )
+{
+	(void)window;
+	(void)param;
+	g_callback.mlxmousebutton = f;
+	return (0);
+}
+
+/**
+ * Batch apply of a #t_callback on a #t_window
+ */
 void	apply_callback(t_window *window, t_callback *callback)
 {
 	glfwSetErrorCallback(callback->error);

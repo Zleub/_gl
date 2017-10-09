@@ -18,10 +18,27 @@
 #define ANGLE M_PI / 10000000
 #define RADIUS 1
 
+/**
+ * \todo This ressource should not be required
+ */
 #define VIDMODE SMALLEST_PLUS
 
+/**
+ * \todo This ressource should not be required
+ */
 const GLFWvidmode * vidmodes ;
+/**
+ * \todo This ressource should not be required
+ */
+extern t_mlx_context g_mlx_context;
+/**
+ * \todo This ressource should not be required
+ */
+extern t_callback g_callback;
 
+/**
+ * Userland #init
+ */
 void		windows_init_late(struct s_mlx_context *mc)
 {
 	int count = 0;
@@ -46,6 +63,9 @@ void		windows_init_late(struct s_mlx_context *mc)
 	// printf("%p\n", mc);
 }
 
+/**
+ * Userland #destroy_callback
+ */
 void		destroy_window(struct s_mlx_context *mc, t_window *w)
 {
 	(void)mc;
@@ -54,9 +74,9 @@ void		destroy_window(struct s_mlx_context *mc, t_window *w)
 	mc->window_nbr -= 1;
 }
 
-extern t_mlx_context g_mlx_context;
-extern t_callback g_callback;
-
+/**
+ * Userland #loop
+ */
 int loop_callback(void *param)
 {
 	static int time;

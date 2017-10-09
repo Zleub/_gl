@@ -20,7 +20,6 @@ typedef struct s_image_list t_image;
 struct s_image_list {
 	struct s_size				size;
 	char						*data;
-	unsigned int				ref;
 	STAILQ_ENTRY(s_image_list)	next;
 };
 
@@ -38,7 +37,6 @@ struct s_mlx_context
 	unsigned int							window_nbr;
 	STAILQ_HEAD(window_head, s_window_list)	w_head;
 	STAILQ_HEAD(image_head, s_image_list)	i_head;
-	struct window_head						*headp;
 	t_window								*active_window;
 } ;
 
@@ -51,6 +49,7 @@ struct s_mlx_context
 
 # define mlx_loop			loop
 # define mlx_loop_hook		loop_hook
+# define mlx_mouse_hook		mouse_hook
 
 # define mlx_new_image new_image
 

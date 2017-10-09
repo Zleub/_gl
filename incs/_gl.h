@@ -38,8 +38,8 @@ typedef void (*MLXwindowresize)(t_mlx_context *, t_window *);
 typedef void (*MLXloopearlyfun)(t_mlx_context *);
 typedef void (*MLXlooplatefun)(t_mlx_context *);
 
-// -- MLX MANDATORY
 typedef int (*MLXloopfun)(void *param) ;
+typedef int (*MLXmousefun)(int button,int x,int y,void *param);
 
 typedef struct s_callback	t_callback;
 struct						s_callback {
@@ -72,6 +72,8 @@ struct						s_callback {
 
 	MLXwindowclosefun		mlxwindowclose;
 	MLXwindowresize			mlxwindowresize;
+
+	MLXmousefun				mlxmousebutton;
 };
 
 typedef struct s_fps	t_fps;
@@ -85,19 +87,19 @@ struct					s_fps {
 };
 
 enum window_size {
-	SMALLEST,		// 640, 480
-	SMALLEST_PLUS,	// 800, 600
-	SMALLER,		// 1024, 576
-	SMALLER_PLUS,	// 1024, 768
-	SMALL,			// 1280, 720
-	SMALL_PLUS,		// 1344, 756
-	LARGE,			// 1280, 960
-	LARGE_PLUS,		// 1344, 1008
-	LARGER,			// 1600, 900
-	LARGER_PLUS,	// 1600, 1200
-	LARGEST,		// 2048, 1152
-	FULLSCREEN,		// 2560, 1440
-	WSLEN
+	/**  640,  480 */ SMALLEST,
+	/**  800,  600 */ SMALLEST_PLUS,
+	/** 1024,  576 */ SMALLER,
+	/** 1024,  768 */ SMALLER_PLUS,
+	/** 1280,  720 */ SMALL,
+	/** 1344,  756 */ SMALL_PLUS,
+	/** 1280,  960 */ LARGE,
+	/** 1344, 1008 */ LARGE_PLUS,
+	/** 1600,  900 */ LARGER,
+	/** 1600, 1200 */ LARGER_PLUS,
+	/** 2048, 1152 */ LARGEST,
+	/** 2560, 1440 */ FULLSCREEN,
+	/** #window_size len */ WSLEN
 };
 
 enum e_drawing_mode {
@@ -161,11 +163,20 @@ struct					s_window {
 	unsigned int		flush;
 };
 
+// struct Class {
+// 	size_t size;
+// 	void * (* ctor) (void * self, va_list * app);
+// 	void * (* dtor) (void * self);
+// 	void * (* clone) (const void * self);
+// 	int (* differ) (const void * self, const void * b);
+// };
+
 #define PARTICULE_WIDTH 1024 // * 2
 #define PARTICULE_HEIGHT 1024 // * 2
 #define VNBR (PARTICULE_WIDTH * PARTICULE_HEIGHT)
 
 extern t_callback g_callback ;
+extern t_mlx_context g_mlx_context;
 
 // window.c
 void			*init(void);
@@ -192,13 +203,17 @@ void			assign_shader(t_renderer *r, char *v_path, char *f_path);
 int				render(t_window *window);
 
 // callback.c
+void			error_callback(int error, const char* message);
 void			key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void			resize_callback(GLFWwindow *window, int width, int height);
-void			error_callback(int error, const char* description);
 void			mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void			scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void			apply_callback(t_window *window, t_callback *callback);
+void			focus_test(GLFWwindow *window, int action);
+void			destroy_callback(GLFWwindow *window);
+
 void			loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param);
+int				mouse_hook(t_window *window, int (*f)(), void *param );
 
 // util.c
 void			version(void);

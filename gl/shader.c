@@ -1,6 +1,9 @@
 #include <_gl.h>
 #include <stdio.h>
 
+/**
+ * Loads a shader path file to a char *.
+ */
 char		*load_shader(char *filename)
 {
 	int		fd;
@@ -31,6 +34,10 @@ char		*load_shader(char *filename)
 	return (str);
 }
 
+/**
+ * Compiles a shader given GL_VERTEX_SHADER | GL_FRAGMENT_SHADER
+ * as an argument.
+ */
 int			compile_shader(int type, unsigned int prog)
 {
 	glCompileShader(prog);
@@ -60,6 +67,9 @@ int			compile_shader(int type, unsigned int prog)
 	return (success);
 }
 
+/**
+ * Shorthand #load_shader + #compile_shader
+ */
 unsigned int	make_shader(int type, char *path)
 {
 	char *shader_text;

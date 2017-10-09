@@ -1,6 +1,7 @@
 #include <_gl.h>
 #include <stdio.h>
 
+/** Version */
 void	version(void)
 {
 	const unsigned char *renderer;
@@ -18,6 +19,9 @@ void	version(void)
 
 }
 
+/**
+ * Init a #t_fps.
+ */
 void	init_fps(t_fps *fps)
 {
 	fps->frames = 0;
@@ -25,6 +29,9 @@ void	init_fps(t_fps *fps)
 	fps->t2 = glfwGetTime();
 }
 
+/**
+ * Update a #t_fps.
+ */
 void	run_fps(t_window *window, t_fps *fps)
 {
 	fps->frames += 1;

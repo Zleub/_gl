@@ -1,14 +1,25 @@
 #include <_gl.h>
 #include <mlx.h>
-
-extern t_mlx_context g_mlx_context;
-
-void focus_test(GLFWwindow *w, int i);
-void destroy_callback(GLFWwindow *window);
-int loop_callback(void *param);
-
 #include <sys/time.h>
 
+/**
+ * Default #t_mlx_context value
+ */
+struct s_mlx_context g_mlx_context = {
+	MONO,
+
+	{ 0, 0 },
+	{ 0, 0 },
+
+	0,
+	STAILQ_HEAD_INITIALIZER(g_mlx_context.w_head),
+	STAILQ_HEAD_INITIALIZER(g_mlx_context.i_head),
+	NULL
+};
+
+/**
+ * Default #t_callback value
+ */
 t_callback g_callback = (t_callback){
 	/* error */				error_callback,
 
@@ -40,9 +51,34 @@ t_callback g_callback = (t_callback){
 	/* lateloop */			NULL,
 
 	/* windowclose */		NULL,
-	/* windowresize */		NULL
+	/* windowresize */		NULL,
+
+	/* mousebutton */		NULL
 } ;
 
+/**
+ * Global _gl init. Calls #t_callback.initearly, #t_callback.initlate
+ */
+void	*init(void)
+{
+	if (g_callback.initearly)
+		g_callback.initearly(&g_mlx_context);
+
+	STAILQ_INIT(&g_mlx_context.w_head);
+	STAILQ_INIT(&g_mlx_context.i_head);
+	if (!glfwInit())
+		exit(EXIT_FAILURE);
+
+	if (g_callback.initlate)
+		g_callback.initlate(&g_mlx_context);
+
+	return (&g_mlx_context);
+}
+
+/**
+ * Global _gl loop. Render each user's window.
+ * Calls #t_callback.earlyloop, #t_callback.loop, #t_callback.lateloop
+ */
 int loop(t_mlx_context *mc)
 {
 	static double dt;

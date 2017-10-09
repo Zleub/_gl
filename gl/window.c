@@ -2,47 +2,21 @@
 #include <mlx.h>
 #include <stdio.h>
 
-struct s_mlx_context g_mlx_context = {
-	MONO,
-
-	{ 0, 0 },
-	{ 0, 0 },
-
-	0,
-	STAILQ_HEAD_INITIALIZER(g_mlx_context.w_head),
-	STAILQ_HEAD_INITIALIZER(g_mlx_context.i_head),
-	NULL,
-	NULL
-};
-
-void	*init(void)
-{
-	if (g_callback.initearly)
-		g_callback.initearly(&g_mlx_context);
-
-	STAILQ_INIT(&g_mlx_context.w_head);
-	STAILQ_INIT(&g_mlx_context.i_head);
-	if (!glfwInit())
-		exit(EXIT_FAILURE);
-
-	if (g_callback.initlate)
-		g_callback.initlate(&g_mlx_context);
-
-	return (&g_mlx_context);
-}
-
+/** The default vertices definition */
 static t_vec3f base_vertices[4] = {
 	{ -1., -1., 0. },
 	{ -1.,  1., 0. },
 	{  1.,  1., 0. },
 	{  1., -1., 0. }
 };
+/** The default colors definition */
 static t_vec3f base_colors[4] = {
 	{ 1., 1., 1. },
 	{ 1., 1., 1. },
 	{ 1., 1., 1. },
 	{ 1., 1., 1. }
 };
+/** The default textures definition */
 static t_vec3f base_textures[4] = {
 	{ 0., 1., 0 },
 	{ 0., 0., 0 },
@@ -50,6 +24,9 @@ static t_vec3f base_textures[4] = {
 	{ 1., 1., 0 }
 };
 
+/**
+ * Create a new window in respect of MLX's windows
+ */
 t_window	*new_window(t_mlx_context *mlx_context, int size_x, int size_y, char *title)
 {
 	t_window_list	*nw;
@@ -94,7 +71,8 @@ t_window	*new_window(t_mlx_context *mlx_context, int size_x, int size_y, char *t
 }
 
 /**
- * Need to be reworked
+ * \todo Need to be reworked
+ * Clears a #t_window
  */
 int		clear_window(t_mlx_context *mlx_context, t_window *window)
 {
@@ -121,6 +99,10 @@ int		clear_window(t_mlx_context *mlx_context, t_window *window)
 	return (1);
 }
 
+/**
+ * \todo Need to be reworked
+ * Put a pixel into a #t_window in respect to MLX's
+ */
 int		pixel_put(t_mlx_context *mlx_context, t_window *window, int x, int y, int color)
 {
 	(void)mlx_context;

@@ -1,16 +1,22 @@
 #include <_gl.h>
 #include <mlx.h>
 
+/**
+ * A basic #t_renderer init.
+ */
 void			init_renderer(t_renderer *r)
 {
 	glGenVertexArrays(1, &r->VAO);
 	glBindVertexArray(r->VAO);
 
-	glfwSwapInterval(0);
+	glfwSwapInterval(-1);
 	assign_shader(r, "res/std_vertex.glsl", "res/std_fragment.glsl");
 }
 
 #define COLOR_LEN 15
+/**
+ * \deprecated A debug color uniqueness.
+ */
 static t_vec3f color_table[COLOR_LEN] = {
 	// { 0.,   0.,   0. },
 	{ 1.,   1.,   1. },
@@ -30,6 +36,9 @@ static t_vec3f color_table[COLOR_LEN] = {
 	{ 0.,   0.,   0.5 }
 };
 
+/**
+ * Internal tool for setting up shaders in a #t_renderer.
+ */
 void			assign_shader(t_renderer *r, char *v_path, char *f_path)
 {
 	static int j = 0;
@@ -121,6 +130,10 @@ void			assign_shader(t_renderer *r, char *v_path, char *f_path)
 extern float cam_w;
 extern struct s_mlx_context g_mlx_context;
 
+/**
+ * The basic render function.
+ * \deprecated You must choose between rendering a renderer or a window.
+ */
 int				render(t_window *window)
 {
 	if (glfwWindowShouldClose(window->w))

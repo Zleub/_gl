@@ -19,9 +19,11 @@ CFLAGS = -O3 -Wall -Werror -Wextra -Iincs -Ilibs/glfw/include/GLFW
 LDFLAGS = -Llibs/glfw/src -lglfw3 -framework Cocoa -framework OpenGL -framework OpenCL -framework IOKit -framework CoreVideo
 GLFW = libs/glfw/src/libglfw3.a
 
+TESTS = demo/main_test.c demo/test.c
+
 all: $(GLFW) $(NAME) _gl test
 
-$(NAME): $(OBJ) main.c
+$(NAME): $(OBJ) demo/main.c
 	$(CC) $(LDFLAGS) $(CFLAGS) -o $(NAME) $^
 
 _gl: $(OBJ)
@@ -36,16 +38,15 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME)
+	rm -rf $(subst .c,,$(notdir $(TESTS)))
+	rm -rf $(subst .c,_temoin,$(notdir $(TESTS)))
 
 re: fclean all test
 
 test: $(OBJ)
-	$(CC) -O3 -Wall -Werror -Wextra -lmlx -framework OpenGL -framework AppKit -o temoin demo/main_test.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -o main_test -L. -l_gl demo/main_test.c
+	$(foreach file,$(TESTS), \
+		$(CC) -O3 -Wall -Werror -Wextra -lmlx -framework OpenGL -framework AppKit -o $(basename $(notdir $(file)))_temoin $(file); \
+		$(CC) $(CFLAGS) $(LDFLAGS) -o $(basename $(notdir $(file))) -L. -l_gl $(file); \
+	)
 
-run:
-	./temoin &
-	./test &
-
-kill:
-	pkill temoin test
+.PHONY: all $(NAME) _gl clean fclean re test run kill

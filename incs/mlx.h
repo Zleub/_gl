@@ -50,6 +50,7 @@ struct s_mlx_context
 # define mlx_loop			loop
 # define mlx_loop_hook		loop_hook
 # define mlx_mouse_hook		mouse_hook
+# define mlx_hook			hook
 
 # define mlx_new_image new_image
 

@@ -176,7 +176,7 @@ struct					s_window {
 #define VNBR (PARTICULE_WIDTH * PARTICULE_HEIGHT)
 
 extern t_callback g_callback ;
-extern t_mlx_context g_mlx_context;
+extern t_mlx_context g_mlx_context ;
 
 // window.c
 void			*init(void);
@@ -211,9 +211,12 @@ void			scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void			apply_callback(t_window *window, t_callback *callback);
 void			focus_test(GLFWwindow *window, int action);
 void			destroy_callback(GLFWwindow *window);
+void			cursor_pos(GLFWwindow *, double, double);
+void			pos_callback(GLFWwindow*window, int x, int y);
 
-void			loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param);
+// mlx_hook.c
 int				mouse_hook(t_window *window, int (*f)(), void *param );
+void			loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param);
 
 // util.c
 void			version(void);
@@ -224,8 +227,9 @@ void			run_fps(t_window *window, t_fps *fps);
 void			*new_image(t_mlx_context *mlx_context, int width, int height);
 char			*get_data_addr(t_image *mlx_context, int *bits_per_pixel, int *size_line, int *endian);
 int				put_image_to_window(t_mlx_context *mlx_context, t_window *window, t_image *image, int x, int y);
-// core.c
 
+// core.c
 int				loop(t_mlx_context *mc);
+void		hook(t_window *window, int x_event, int x_mask, int (*f)(), void * param);
 
 #endif

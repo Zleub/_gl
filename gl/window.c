@@ -79,23 +79,26 @@ int		clear_window(t_mlx_context *mlx_context, t_window *window)
 	(void)mlx_context;
 
 	glfwMakeContextCurrent(window->w);
-	// glBindTexture(GL_TEXTURE_2D, window->r.texture);
+	glBindTexture(GL_TEXTURE_2D, window->r.texture);
+
+	glClearColor(0, 0, 0, 0);
+	glClear(GL_COLOR_BUFFER_BIT);
 
 	t_renderer *r = &window->r;
-	(void)r;
-	int w = X_SIZE;
-	int h = Y_SIZE;
-	int size = w * h ;
+	t_vec4f emptyData[X_SIZE * Y_SIZE];
+	bzero(emptyData, sizeof(t_vec4f) * X_SIZE * Y_SIZE);
+	glTexSubImage2D(
+		GL_TEXTURE_2D,
+		0,
+		0,
+		0,
+		X_SIZE,
+		Y_SIZE,
+		GL_BGRA,
+		GL_UNSIGNED_BYTE,
+		&emptyData[0]
+	);
 
-	t_vec4f *img = malloc(sizeof(t_vec4f) * size);
-	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, img);
-
-	for (int i = 0; i < size; ++i)
-	{
-		img[i] = (t_vec4f){ 0., 0., 0., 0. };
-	}
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_FLOAT, img);
-	free(img);
 	return (1);
 }
 

@@ -169,6 +169,33 @@ void	error_callback(int error, const char* description)
 	puts(description);
 }
 
+#define PRESS 1
+#define RELEASE 0
+
+// event[2] -> flagsChanged
+// event[3] -> flagsChanged
+// event[2] -> keyDown
+// event[3] -> keyUp
+// event[4] -> mouseDown
+// event[4] -> rightMouseDown
+// event[4] -> otherMouseDown
+// event[5] -> mouseUp
+// event[5] -> rightMouseUp
+// event[5] -> otherMouseUp
+// event[6] -> mouseMoved
+// event[6] -> mouseDragged
+// event[6] -> rightMouseDragged
+// event[6] -> otherMouseDragged
+// event[4] -> scrollWheel
+// event[12] -> exposeNotification
+// event[17] -> closeNotification
+
+extern struct {
+	int n;
+	int(*f)();
+	void *p;
+}	event_table[];
+
 /**
  * The handler for the GLFW mouse button callback
  * \todo Should trigger a userland MLX mouse button callback
@@ -179,30 +206,35 @@ void	mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	(void)button;
 	(void)action;
 	(void)mods;
-	printf("%s: %d\n", __func__, button);
+	// printf("%s: %d\n", __func__, button);
 	int width ;
 	int height ;
 
 	glfwGetWindowSize(window, &width, &height);
 
-	if (button == 0)
-	{
-		struct { double x ; double y ; } moused;
+	struct { double x ; double y ; } moused;
+	glfwGetCursorPos(window, &moused.x, &moused.y);
 
-		glfwGetCursorPos(window, &moused.x, &moused.y);
+	// printf("%d\n", action);
 
-		moused.x = (moused.x - width / 2) / width;
-		moused.y = (height / 2 - moused.y) / height;
-
-		mouse = (t_vec3f){
-			(float)moused.x * (float)cam_w,
-			(float)moused.y * (float)cam_w,
-			0.
-		};
+	if (action == 1) {
+		if (g_callback.mlxmousebutton)
+			g_callback.mlxmousebutton(button, moused.x, moused.y, NULL);
+		if (event_table[2].f)
+			event_table[2].f(button, (int)moused.x, (int)moused.y, event_table[2].p);
 	}
+	else if (action == 0) {
+		if (event_table[3].f)
+			event_table[3].f(button, (int)moused.x, (int)moused.y, event_table[3].p);
+	}
+}
 
-	if (g_callback.mlxmousebutton)
-		g_callback.mlxmousebutton(button, mouse.x, mouse.y, NULL);
+void	cursor_pos(GLFWwindow *window, double x, double y)
+{
+	(void)window;
+	if (event_table[4].f) {
+		event_table[4].f((int)x, (int)y, event_table[4].p);
+	}
 }
 
 /**
@@ -216,31 +248,17 @@ void	scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	cam_w += yoffset / 10;
 }
 
-/**
- * The loop_callback setter
- * \todo Handle param
- */
-void	loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param )
+void	pos_callback(GLFWwindow*window, int x, int y)
 {
-	(void)mlx_context;
-	(void)param;
-	g_callback.loop = f;
-}
-
-/**
- * The loop_callback setter
- * \todo Handle param
- */
-int		mouse_hook(t_window *window, int (*f)(), void *param )
-{
-	(void)window;
-	(void)param;
-	g_callback.mlxmousebutton = f;
-	return (0);
+	(void)x;
+	(void)y;
+	if (g_callback.loop)
+		g_callback.loop(window);
 }
 
 /**
  * Batch apply of a #t_callback on a #t_window
+ * \todo Find out a better way to achieve that
  */
 void	apply_callback(t_window *window, t_callback *callback)
 {

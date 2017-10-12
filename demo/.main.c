@@ -4,9 +4,6 @@
 
 #include <math.h>
 
-#include <_gl.h>
-#include <_cl.h>
-
 // #include <OpenCL/opencl.h>
 #include <OpenCL/cl_gl_ext.h>
 #include <OpenGL/CGLDevice.h>

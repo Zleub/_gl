@@ -1,0 +1,28 @@
+var structs__callback =
+[
+    [ "charmods", "structs__callback.html#aa247d4bcb0452dab3a0fd8549cbe26b5", null ],
+    [ "cursorenter", "structs__callback.html#acac509d3a76d7d6af8de8bbbb3240381", null ],
+    [ "cursorpos", "structs__callback.html#aede3705a137afa6e05153ae8706c1ca9", null ],
+    [ "drop", "structs__callback.html#a4938e80f84c3deb750d5e7a99b6960d9", null ],
+    [ "earlyloop", "structs__callback.html#a08138d958d3c19eefa5d7b4dbf258b12", null ],
+    [ "error", "structs__callback.html#a2b006966aed61db945e2195349740bbd", null ],
+    [ "framebuffersize", "structs__callback.html#a64ab275721bfada0e1aa8c54477429eb", null ],
+    [ "initearly", "structs__callback.html#a07e0cfef349155322afb6de681e6cf42", null ],
+    [ "initlate", "structs__callback.html#a6f9b2bf29ccc538729ca21dabe0f0bef", null ],
+    [ "joystick", "structs__callback.html#af2d1f40ad6902052a51d157455095664", null ],
+    [ "key", "structs__callback.html#ab8d05b273f2f0e7e09e7cb92a93a679e", null ],
+    [ "lateloop", "structs__callback.html#afb9b296b1b29f8234b2146b1e360d26d", null ],
+    [ "loop", "structs__callback.html#a9df78c2a6e6404a848eb5918bbe835b3", null ],
+    [ "mlxmousebutton", "structs__callback.html#ad3f56906e74aaa66f927d647ac2babb6", null ],
+    [ "mlxwindowclose", "structs__callback.html#a9a9a49e0566d824ca86e461db269b7c0", null ],
+    [ "mlxwindowresize", "structs__callback.html#a0a1eed4dc02bcecc2934fe348ae0433f", null ],
+    [ "mousebutton", "structs__callback.html#aab2ee89d4028d14c0f5e9f9ecfc6ab83", null ],
+    [ "scroll", "structs__callback.html#aad57e343e4055a26c015537eecd34290", null ],
+    [ "uchar", "structs__callback.html#a49d845dce00f496b2a716385d7f1a35f", null ],
+    [ "windowclose", "structs__callback.html#a5492f7a8c18cbbc27c70ccf2f7db9f57", null ],
+    [ "windowfocus", "structs__callback.html#a02e8a518455f4910559b2b0309fd3fbf", null ],
+    [ "windowiconify", "structs__callback.html#a848a2eba75c58e851525ba4150b5e4ea", null ],
+    [ "windowpos", "structs__callback.html#a920fdfaa9a6a14a31db07b224b5f798f", null ],
+    [ "windowrefresh", "structs__callback.html#a2fadfeabbf50e562d9bfb4d71c3757ba", null ],
+    [ "windowsize", "structs__callback.html#a3c681b1a881f66abc750625a198f00ad", null ]
+];

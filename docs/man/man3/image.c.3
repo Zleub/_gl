@@ -1,0 +1,37 @@
+.TH "gl/image.c" 3 "Thu Oct 12 2017" "Version 0.0.1" "_gl" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gl/image.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <_gl\&.h>\fP
+.br
+\fC#include <mlx\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void * \fBnew_image\fP (\fBt_mlx_context\fP *mlx_context, int width, int height)"
+.br
+.ti -1c
+.RI "char * \fBget_data_addr\fP (\fBt_image\fP *\fBimage\fP, int *bits_per_pixel, int *size_line, int *endian)"
+.br
+.ti -1c
+.RI "int \fBput_image_to_window\fP (\fBt_mlx_context\fP *mlx_context, \fBt_window\fP *\fBwindow\fP, \fBt_image\fP *\fBimage\fP, int \fBx\fP, int \fBy\fP)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "char* get_data_addr (\fBt_image\fP * image, int * bits_per_pixel, int * size_line, int * endian)"
+Unwrap the data address from a \fBt_image\fP\&. 
+.SS "void* new_image (\fBt_mlx_context\fP * mlx_context, int width, int height)"
+Creates a new \fBt_image\fP based on the MLX image's format\&. 
+.SS "int put_image_to_window (\fBt_mlx_context\fP * mlx_context, \fBt_window\fP * window, \fBt_image\fP * image, int x, int y)"
+Put a \fBt_image\fP to a \fBt_window\fP\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for _gl from the source code\&.

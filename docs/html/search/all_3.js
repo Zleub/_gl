@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['callback_2ec',['callback.c',['../callback_8c.html',1,'']]],
+  ['cam_5fw',['cam_w',['../callback_8c.html#a86bccb3597de3abf2439f708719678b0',1,'cam_w():&#160;callback.c'],['../renderer_8c.html#a86bccb3597de3abf2439f708719678b0',1,'cam_w():&#160;callback.c'],['../__ps_8c.html#a86bccb3597de3abf2439f708719678b0',1,'cam_w():&#160;_ps.c']]],
+  ['charmods',['charmods',['../structs__callback.html#aa247d4bcb0452dab3a0fd8549cbe26b5',1,'s_callback']]],
+  ['circle',['circle',['../vertices_8c.html#a63513eb40009af27faf7afc80e361431',1,'circle(t_vec4f *v_pos, unsigned int size, unsigned int grain):&#160;vertices.c'],['../__gl_8h.html#afa994c223f78aa120f98858a4cf5551f',1,'circle(t_vec4f *vertices, unsigned int size, unsigned int grain):&#160;vertices.c']]],
+  ['cl_5fmem_5fmask',['cl_mem_mask',['../structs__param.html#a9775324774069eea56c3f1ed1a12f451',1,'s_param']]],
+  ['clear_5fwindow',['clear_window',['../window_8c.html#a3d624f55ae015966e686f6b14aee1814',1,'clear_window(t_mlx_context *mlx_context, t_window *window):&#160;window.c'],['../__gl_8h.html#a3d624f55ae015966e686f6b14aee1814',1,'clear_window(t_mlx_context *mlx_context, t_window *window):&#160;window.c']]],
+  ['closenotification',['closeNotification',['../mlx__hook_8c.html#ad29858f6d8ab73f2970f41cb21a76b84a704491b68b67eae061507d051b25f287',1,'mlx_hook.c']]],
+  ['color_5flen',['COLOR_LEN',['../renderer_8c.html#ab5557ed18d83facb69dd68b30629c37e',1,'renderer.c']]],
+  ['commands',['commands',['../structs__context.html#a7c1b980afa4006067fef12cf6e6ba28f',1,'s_context']]],
+  ['compile_5fshader',['compile_shader',['../shader_8c.html#a3f5c422d95022d4b06ad77bff956eef6',1,'compile_shader(int type, unsigned int prog):&#160;shader.c'],['../__gl_8h.html#a3f5c422d95022d4b06ad77bff956eef6',1,'compile_shader(int type, unsigned int prog):&#160;shader.c']]],
+  ['compute_2ec',['compute.c',['../compute_8c.html',1,'']]],
+  ['connect',['connect',['../compute_8c.html#a4e3d9c18f1062b2d06c70105cb895ea4',1,'connect(cl_device_id *device_id):&#160;compute.c'],['../__cl_8h.html#a4e3d9c18f1062b2d06c70105cb895ea4',1,'connect(cl_device_id *device_id):&#160;compute.c']]],
+  ['context',['context',['../structs__context.html#aa9ae3ac48d62857fe879d7c28d903097',1,'s_context']]],
+  ['core_2ec',['core.c',['../core_8c.html',1,'']]],
+  ['create_5fbuffer',['CREATE_BUFFER',['../__cl_8h.html#a726ca809ffd3d67ab4b8476646f26635a4007d66f82e66049f5995a8ea60dafb6',1,'_cl.h']]],
+  ['create_5fbuffer_5ffrom_5fgl',['CREATE_BUFFER_FROM_GL',['../__cl_8h.html#a726ca809ffd3d67ab4b8476646f26635a48c07dc2a1cc42b5b756b172cdfe96af',1,'_cl.h']]],
+  ['create_5fcommand',['create_command',['../compute_8c.html#a98a35098061dc9603d9be73b70982c40',1,'create_command(cl_context context, cl_device_id device_id):&#160;compute.c'],['../__cl_8h.html#a98a35098061dc9603d9be73b70982c40',1,'create_command(cl_context context, cl_device_id device_id):&#160;compute.c']]],
+  ['create_5fcontext',['create_context',['../compute_8c.html#a5bcb05d4be225383310d13cf8d7b211d',1,'create_context(cl_device_id device_id, cl_context_properties *props):&#160;compute.c'],['../__cl_8h.html#a5bcb05d4be225383310d13cf8d7b211d',1,'create_context(cl_device_id device_id, cl_context_properties *props):&#160;compute.c']]],
+  ['create_5ffunction',['create_function',['../structs__param.html#a3de41f9880a4b019bc3c28d488063b83',1,'s_param']]],
+  ['create_5fkernel',['create_kernel',['../compute_8c.html#a21d5dd2aa573959e69764b0b4ebfc1c6',1,'create_kernel(cl_context context, cl_device_id device_id, char *path, char *name):&#160;compute.c'],['../__cl_8h.html#a08a6bb4c31cc5ef7cb8bc4c76aae9842',1,'create_kernel(cl_context context, cl_device_id device_id, char *source, char *name):&#160;compute.c']]],
+  ['create_5fwindow',['create_window',['../callback_8c.html#ad2ef2337ea42acf8ff46ddfb59224c2a',1,'callback.c']]],
+  ['cube',['cube',['../vertices_8c.html#af2492fd0a9474154c0a2450518a122b7',1,'cube(t_vec4f *v_pos, unsigned int size, unsigned int grain):&#160;vertices.c'],['../__gl_8h.html#a19d2163a64f69ba4bed411eca0e46f12',1,'cube(t_vec4f *vertices, unsigned int size, unsigned int grain):&#160;vertices.c']]],
+  ['cursor_5fpos',['cursor_pos',['../callback_8c.html#a16386617fb006f16c7e969efee074711',1,'cursor_pos(GLFWwindow *window, double x, double y):&#160;callback.c'],['../__gl_8h.html#acc32e7541ccfffcfad36cd4344a4edf8',1,'cursor_pos(GLFWwindow *, double, double):&#160;callback.c']]],
+  ['cursorenter',['cursorenter',['../structs__callback.html#acac509d3a76d7d6af8de8bbbb3240381',1,'s_callback']]],
+  ['cursorpos',['cursorpos',['../structs__callback.html#aede3705a137afa6e05153ae8706c1ca9',1,'s_callback']]]
+];

@@ -1,0 +1,42 @@
+.TH "cl/kernel.c" 3 "Thu Oct 12 2017" "Version 0.0.1" "_gl" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cl/kernel.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <_cl\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBt_context\fP * \fBinit_context\fP (char **kernel_names, char **function_names, cl_context_properties *properties)"
+.br
+.ti -1c
+.RI "\fBt_kernel\fP * \fBinit_kernel\fP (\fBt_context\fP *context, unsigned int k_nbr, unsigned int f_nbr)"
+.br
+.ti -1c
+.RI "cl_mem * \fBinit_params\fP (\fBt_context\fP *context, \fBt_kernel\fP *k, unsigned int p_nbr, \fBt_param\fP *params)"
+.br
+.ti -1c
+.RI "void \fBrun_kernel\fP (\fBt_context\fP *context, \fBt_kernel\fP *kernel)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fBt_context\fP* init_context (char ** kernel_names, char ** function_names, cl_context_properties * properties)"
+
+.SS "\fBt_kernel\fP* init_kernel (\fBt_context\fP * context, unsigned int k_nbr, unsigned int f_nbr)"
+
+.SS "cl_mem* init_params (\fBt_context\fP * context, \fBt_kernel\fP * k, unsigned int p_nbr, \fBt_param\fP * params)"
+
+.SS "void run_kernel (\fBt_context\fP * context, \fBt_kernel\fP * kernel)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for _gl from the source code\&.

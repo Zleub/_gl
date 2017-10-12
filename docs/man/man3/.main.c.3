@@ -1,0 +1,128 @@
+.TH "demo/.main.c" 3 "Thu Oct 12 2017" "Version 0.0.1" "_gl" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+demo/.main.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <OpenCL/cl_gl_ext\&.h>\fP
+.br
+\fC#include <OpenGL/CGLDevice\&.h>\fP
+.br
+\fC#include <OpenGL/CGLCurrent\&.h>\fP
+.br
+\fC#include <mlx\&.h>\fP
+.br
+\fC#include <signal\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBANGLE\fP   M_PI / 10000000"
+.br
+.ti -1c
+.RI "#define \fBRADIUS\fP   1"
+.br
+.ti -1c
+.RI "#define \fBVIDMODE\fP   \fBSMALLEST_PLUS\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBwindows_init_late\fP (struct \fBs_mlx_context\fP *mc)"
+.br
+.ti -1c
+.RI "void \fBdestroy_window\fP (struct \fBs_mlx_context\fP *mc, \fBt_window\fP *w)"
+.br
+.ti -1c
+.RI "int \fBloop_callback\fP (void *param)"
+.br
+.ti -1c
+.RI "int \fBmain\fP ()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const GLFWvidmode * \fBvidmodes\fP"
+.br
+.ti -1c
+.RI "\fBt_mlx_context\fP \fBg_mlx_context\fP"
+.br
+.ti -1c
+.RI "\fBt_callback\fP \fBg_callback\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ANGLE   M_PI / 10000000"
+
+.SS "#define RADIUS   1"
+
+.SS "#define VIDMODE   \fBSMALLEST_PLUS\fP"
+
+.PP
+\fBTodo\fP
+.RS 4
+This ressource should not be required 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "void destroy_window (struct \fBs_mlx_context\fP * mc, \fBt_window\fP * w)"
+Userland \fBdestroy_callback\fP 
+.SS "int loop_callback (void * param)"
+Userland \fBloop\fP 
+.SS "int main ()"
+
+.SS "void windows_init_late (struct \fBs_mlx_context\fP * mc)"
+Userland \fBinit\fP 
+.SH "Variable Documentation"
+.PP 
+.SS "\fBt_callback\fP g_callback"
+
+.PP
+\fBTodo\fP
+.RS 4
+This ressource should not be required 
+.RE
+.PP
+.PP
+Default \fBt_callback\fP value 
+.SS "\fBt_mlx_context\fP g_mlx_context"
+
+.PP
+\fBTodo\fP
+.RS 4
+This ressource should not be required 
+.RE
+.PP
+.PP
+Default \fBt_mlx_context\fP value 
+.SS "const GLFWvidmode* vidmodes"
+
+.PP
+\fBTodo\fP
+.RS 4
+This ressource should not be required 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for _gl from the source code\&.

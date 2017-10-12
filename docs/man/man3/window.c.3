@@ -1,0 +1,53 @@
+.TH "gl/window.c" 3 "Thu Oct 12 2017" "Version 0.0.1" "_gl" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gl/window.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <_gl\&.h>\fP
+.br
+\fC#include <mlx\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBt_window\fP * \fBnew_window\fP (\fBt_mlx_context\fP *mlx_context, int size_x, int size_y, char *title)"
+.br
+.ti -1c
+.RI "int \fBclear_window\fP (\fBt_mlx_context\fP *mlx_context, \fBt_window\fP *\fBwindow\fP)"
+.br
+.ti -1c
+.RI "int \fBpixel_put\fP (\fBt_mlx_context\fP *mlx_context, \fBt_window\fP *\fBwindow\fP, int \fBx\fP, int \fBy\fP, int color)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int clear_window (\fBt_mlx_context\fP * mlx_context, \fBt_window\fP * window)"
+
+.PP
+\fBTodo\fP
+.RS 4
+Need to be reworked Clears a \fBt_window\fP 
+.RE
+.PP
+
+.SS "\fBt_window\fP* new_window (\fBt_mlx_context\fP * mlx_context, int size_x, int size_y, char * title)"
+Create a new window in respect of MLX's windows 
+.SS "int pixel_put (\fBt_mlx_context\fP * mlx_context, \fBt_window\fP * window, int x, int y, int color)"
+
+.PP
+\fBTodo\fP
+.RS 4
+Need to be reworked Put a pixel into a \fBt_window\fP in respect to MLX's 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for _gl from the source code\&.

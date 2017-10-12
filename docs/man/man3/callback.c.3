@@ -1,0 +1,244 @@
+.TH "gl/callback.c" 3 "Thu Oct 12 2017" "Version 0.0.1" "_gl" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gl/callback.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <_gl\&.h>\fP
+.br
+\fC#include <mlx\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBPRESS\fP   1"
+.br
+.ti -1c
+.RI "#define \fBRELEASE\fP   0"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef void(* \fBt_key_function\fP) (int key)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBdummy\fP (int key)"
+.br
+.ti -1c
+.RI "void \fBswitch_mlx_mode\fP (int key)"
+.br
+.ti -1c
+.RI "void \fBcreate_window\fP (int key)"
+.br
+.ti -1c
+.RI "void \fBdebug\fP (int key)"
+.br
+.ti -1c
+.RI "void \fBkey_callback\fP (GLFWwindow *\fBwindow\fP, int key, int scancode, int action, int mods)"
+.br
+.ti -1c
+.RI "void \fBdestroy_callback\fP (GLFWwindow *\fBwindow\fP)"
+.br
+.ti -1c
+.RI "void \fBfocus_test\fP (GLFWwindow *\fBwindow\fP, int action)"
+.br
+.ti -1c
+.RI "void \fBresize_callback\fP (GLFWwindow *\fBwindow\fP, int width, int height)"
+.br
+.ti -1c
+.RI "void \fBerror_callback\fP (int error, const char *description)"
+.br
+.ti -1c
+.RI "void \fBmouse_button_callback\fP (GLFWwindow *\fBwindow\fP, int button, int action, int mods)"
+.br
+.ti -1c
+.RI "void \fBcursor_pos\fP (GLFWwindow *\fBwindow\fP, double \fBx\fP, double \fBy\fP)"
+.br
+.ti -1c
+.RI "void \fBscroll_callback\fP (GLFWwindow *\fBwindow\fP, double xoffset, double yoffset)"
+.br
+.ti -1c
+.RI "void \fBpos_callback\fP (GLFWwindow *\fBwindow\fP, int \fBx\fP, int \fBy\fP)"
+.br
+.ti -1c
+.RI "void \fBapply_callback\fP (\fBt_window\fP *\fBwindow\fP, \fBt_callback\fP *callback)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "float \fBcam_w\fP"
+.br
+.ti -1c
+.RI "t_vec3f \fBmouse\fP"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   int \fBn\fP"
+.br
+.ti -1c
+.RI "   int(* \fBf\fP )()"
+.br
+.ti -1c
+.RI "   void * \fBp\fP"
+.br
+.ti -1c
+.RI "} \fBevent_table\fP []"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define PRESS   1"
+
+.SS "#define RELEASE   0"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef void(* t_key_function) (int key)"
+
+.SH "Function Documentation"
+.PP 
+.SS "void apply_callback (\fBt_window\fP * window, \fBt_callback\fP * callback)"
+Batch apply of a \fBt_callback\fP on a \fBt_window\fP 
+.PP
+\fBTodo\fP
+.RS 4
+Find out a better way to achieve that 
+.RE
+.PP
+
+.SS "void create_window (int key)"
+
+.PP
+\fBDeprecated\fP
+.RS 4
+Useless/Forgiven Usage 
+.RE
+.PP
+
+.SS "void cursor_pos (GLFWwindow * window, double x, double y)"
+
+.SS "void debug (int key)"
+
+.PP
+\fBDeprecated\fP
+.RS 4
+Useless/Forgiven Usage 
+.RE
+.PP
+
+.SS "void destroy_callback (GLFWwindow * window)"
+
+.PP
+\fBDeprecated\fP
+.RS 4
+Useless/Forgiven Usage 
+.RE
+.PP
+
+.SS "void dummy (int key)"
+A dummy functions for keys events 
+.SS "void error_callback (int error, const char * description)"
+
+.PP
+\fBDeprecated\fP
+.RS 4
+Useless/Forgiven Usage 
+.RE
+.PP
+
+.SS "void focus_test (GLFWwindow * window, int action)"
+The handler for the GLFW focus callback 
+.PP
+\fBTodo\fP
+.RS 4
+Should trigger a userland MLX focus callback 
+.RE
+.PP
+
+.SS "void key_callback (GLFWwindow * window, int key, int scancode, int action, int mods)"
+The default key callback \fBg_callback\fP 
+.SS "void mouse_button_callback (GLFWwindow * window, int button, int action, int mods)"
+The handler for the GLFW mouse button callback 
+.PP
+\fBTodo\fP
+.RS 4
+Should trigger a userland MLX mouse button callback 
+.RE
+.PP
+
+.SS "void pos_callback (GLFWwindow * window, int x, int y)"
+
+.SS "void resize_callback (GLFWwindow * window, int width, int height)"
+The handler for the GLFW resize callback 
+.PP
+\fBTodo\fP
+.RS 4
+Should trigger a userland MLX resize callback 
+.RE
+.PP
+
+.SS "void scroll_callback (GLFWwindow * window, double xoffset, double yoffset)"
+The handler for the GLFW scroll callback 
+.PP
+\fBTodo\fP
+.RS 4
+Should trigger a userland MLX scroll callback 
+.RE
+.PP
+
+.SS "void switch_mlx_mode (int key)"
+
+.PP
+\fBDeprecated\fP
+.RS 4
+Useless/Forgiven Usage 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "float cam_w"
+
+.PP
+\fBDeprecated\fP
+.RS 4
+Useless/Forgiven Usage 
+.RE
+.PP
+
+.SS "struct { \&.\&.\&. } 	 event_table[]"
+
+.SS "int(* f) ()"
+
+.SS "t_vec3f mouse"
+
+.PP
+\fBDeprecated\fP
+.RS 4
+Useless/Forgiven Usage 
+.RE
+.PP
+
+.SS "int n"
+
+.SS "void* p"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for _gl from the source code\&.

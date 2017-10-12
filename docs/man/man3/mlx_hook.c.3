@@ -1,0 +1,128 @@
+.TH "gl/mlx_hook.c" 3 "Thu Oct 12 2017" "Version 0.0.1" "_gl" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gl/mlx_hook.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <_gl\&.h>\fP
+.br
+\fC#include <mlx\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBevents\fP { \fBflagsChanged\fP = 2 | 3, \fBkeyDown\fP = 2, \fBkeyUp\fP = 3, \fBmouseDown\fP = 4, \fBrightMouseDown\fP = 4, \fBotherMouseDown\fP = 4, \fBmouseUp\fP = 5, \fBrightMouseUp\fP = 5, \fBotherMouseUp\fP = 5, \fBmouseMoved\fP = 6, \fBmouseDragged\fP = 6, \fBrightMouseDragged\fP = 6, \fBotherMouseDragged\fP = 6, \fBscrollWheel\fP = 4, \fBexposeNotification\fP = 12, \fBcloseNotification\fP = 17 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBmouse_hook\fP (\fBt_window\fP *\fBwindow\fP, int(*\fBf\fP)(), void *param)"
+.br
+.ti -1c
+.RI "void \fBloop_hook\fP (\fBt_mlx_context\fP *mlx_context, int(*\fBf\fP)(), void *param)"
+.br
+.ti -1c
+.RI "void \fBhook\fP (\fBt_window\fP *\fBwindow\fP, int x_event, int x_mask, int(*\fBf\fP)(), void *param)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   int \fBn\fP"
+.br
+.ti -1c
+.RI "   int(* \fBf\fP )()"
+.br
+.ti -1c
+.RI "   void * \fBp\fP"
+.br
+.ti -1c
+.RI "} \fBevent_table\fP []"
+.br
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBevents\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIflagsChanged \fP\fP
+.TP
+\fB\fIkeyDown \fP\fP
+.TP
+\fB\fIkeyUp \fP\fP
+.TP
+\fB\fImouseDown \fP\fP
+.TP
+\fB\fIrightMouseDown \fP\fP
+.TP
+\fB\fIotherMouseDown \fP\fP
+.TP
+\fB\fImouseUp \fP\fP
+.TP
+\fB\fIrightMouseUp \fP\fP
+.TP
+\fB\fIotherMouseUp \fP\fP
+.TP
+\fB\fImouseMoved \fP\fP
+.TP
+\fB\fImouseDragged \fP\fP
+.TP
+\fB\fIrightMouseDragged \fP\fP
+.TP
+\fB\fIotherMouseDragged \fP\fP
+.TP
+\fB\fIscrollWheel \fP\fP
+.TP
+\fB\fIexposeNotification \fP\fP
+.TP
+\fB\fIcloseNotification \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "void hook (\fBt_window\fP * window, int x_event, int x_mask, int(*)() f, void * param)"
+Generic event setter\&. 
+.SS "void loop_hook (\fBt_mlx_context\fP * mlx_context, int(*)() f, void * param)"
+The loop_callback setter 
+.PP
+\fBTodo\fP
+.RS 4
+Handle param 
+.RE
+.PP
+
+.SS "int mouse_hook (\fBt_window\fP * window, int(*)() f, void * param)"
+The loop_callback setter 
+.PP
+\fBTodo\fP
+.RS 4
+Handle param 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "struct { \&.\&.\&. } 	 event_table[]"
+
+.SS "int(* f) ()"
+
+.SS "int n"
+
+.SS "void* p"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for _gl from the source code\&.

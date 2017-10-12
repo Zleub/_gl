@@ -1,0 +1,37 @@
+.TH "gl/shader.c" 3 "Thu Oct 12 2017" "Version 0.0.1" "_gl" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gl/shader.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <_gl\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "char * \fBload_shader\fP (char *filename)"
+.br
+.ti -1c
+.RI "int \fBcompile_shader\fP (int type, unsigned int prog)"
+.br
+.ti -1c
+.RI "unsigned int \fBmake_shader\fP (int type, char *path)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int compile_shader (int type, unsigned int prog)"
+Compiles a shader given GL_VERTEX_SHADER | GL_FRAGMENT_SHADER as an argument\&. 
+.SS "char* load_shader (char * filename)"
+Loads a shader path file to a char *\&. 
+.SS "unsigned int make_shader (int type, char * path)"
+Shorthand \fBload_shader\fP + \fBcompile_shader\fP 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for _gl from the source code\&.

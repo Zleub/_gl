@@ -54,3 +54,31 @@ int		put_image_to_window(t_mlx_context *mlx_context, t_window *window, t_image *
 	);
 	return (1);
 }
+
+/**
+ * Batch apply of a #t_callback on a #t_window
+ * \todo Find out a better way to achieve that
+ */
+void	apply_callback(t_window *window, t_callback *callback)
+{
+	glfwSetErrorCallback(callback->error);
+
+	glfwSetWindowPosCallback(window->w, callback->windowpos);
+	glfwSetWindowSizeCallback(window->w, callback->windowsize);
+	glfwSetWindowCloseCallback(window->w, callback->windowclose);
+	glfwSetWindowRefreshCallback(window->w, callback->windowrefresh);
+	glfwSetWindowFocusCallback(window->w, callback->windowfocus);
+	glfwSetWindowIconifyCallback(window->w, callback->windowiconify);
+	glfwSetFramebufferSizeCallback(window->w, callback->framebuffersize);
+
+	glfwSetKeyCallback(window->w, callback->key);
+	glfwSetCharCallback(window->w, callback->uchar);
+	glfwSetCharModsCallback(window->w, callback->charmods);
+	glfwSetMouseButtonCallback(window->w, callback->mousebutton);
+	glfwSetCursorPosCallback(window->w, callback->cursorpos);
+	glfwSetCursorEnterCallback(window->w, callback->cursorenter);
+	glfwSetScrollCallback(window->w, callback->scroll);
+	glfwSetDropCallback(window->w, callback->drop);
+
+	glfwSetJoystickCallback(callback->joystick);
+}

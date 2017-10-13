@@ -6,7 +6,7 @@
  * Default #t_mlx_context value
  */
 t_mlx_context g_mlx_context = {
-	MULTIPLE,
+	MONO,
 
 	{ 0, 0 },
 	{ 0, 0 },

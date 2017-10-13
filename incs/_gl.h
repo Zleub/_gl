@@ -86,7 +86,7 @@ struct					s_fps {
 	float				dt;
 };
 
-enum window_size {
+enum e_window_size {
 	/**  640,  480 */ SMALLEST,
 	/**  800,  600 */ SMALLEST_PLUS,
 	/** 1024,  576 */ SMALLER,
@@ -163,14 +163,6 @@ struct					s_window {
 	unsigned int		flush;
 };
 
-// struct Class {
-// 	size_t size;
-// 	void * (* ctor) (void * self, va_list * app);
-// 	void * (* dtor) (void * self);
-// 	void * (* clone) (const void * self);
-// 	int (* differ) (const void * self, const void * b);
-// };
-
 #define PARTICULE_WIDTH 1024 // * 2
 #define PARTICULE_HEIGHT 1024 // * 2
 #define VNBR (PARTICULE_WIDTH * PARTICULE_HEIGHT)
@@ -183,14 +175,15 @@ void			*init(void);
 t_window		*new_window(t_mlx_context *mlx_context, int size_x, int size_y, char *title);
 int				clear_window(t_mlx_context *mlx_context, t_window *window);
 int				pixel_put(t_mlx_context *mlx_context, t_window *window, int x, int y, int color);
+void			apply_callback(t_window *window, t_callback *callback);
 
 // vertices.c
-t_vec4f			*new_vertices(unsigned int size);
-void			line(t_vec4f *vertices, unsigned int size, unsigned int grain);
-void			cube(t_vec4f *vertices, unsigned int size, unsigned int grain);
-void			circle(t_vec4f *vertices, unsigned int size, unsigned int grain);
-void			inf_cone(t_vec4f *vertices, unsigned int size, unsigned int grain);
-void			large_cube(t_vec4f *v_pos, unsigned int size, unsigned int grain);
+// t_vec4f			*new_vertices(unsigned int size);
+// void			line(t_vec4f *vertices, unsigned int size, unsigned int grain);
+// void			cube(t_vec4f *vertices, unsigned int size, unsigned int grain);
+// void			circle(t_vec4f *vertices, unsigned int size, unsigned int grain);
+// void			inf_cone(t_vec4f *vertices, unsigned int size, unsigned int grain);
+// void			large_cube(t_vec4f *v_pos, unsigned int size, unsigned int grain);
 
 // shader.c
 char			*load_shader(char *filename);
@@ -208,7 +201,6 @@ void			key_callback(GLFWwindow* window, int key, int scancode, int action, int m
 void			resize_callback(GLFWwindow *window, int width, int height);
 void			mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void			scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void			apply_callback(t_window *window, t_callback *callback);
 void			focus_test(GLFWwindow *window, int action);
 void			destroy_callback(GLFWwindow *window);
 void			cursor_pos(GLFWwindow *, double, double);
@@ -230,6 +222,6 @@ int				put_image_to_window(t_mlx_context *mlx_context, t_window *window, t_image
 
 // core.c
 int				loop(t_mlx_context *mc);
-void		hook(t_window *window, int x_event, int x_mask, int (*f)(), void * param);
+void			hook(t_window *window, int x_event, int x_mask, int (*f)(), void * param);
 
 #endif

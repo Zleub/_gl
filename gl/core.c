@@ -38,6 +38,9 @@ t_callback g_callback = (t_callback){
 	.charmods = NULL,
 	.drop = NULL,
 	.joystick = NULL,
+
+	/* -- -- */
+
 	.initearly = NULL,
 	.initlate = NULL,
 	.earlyloop = NULL,

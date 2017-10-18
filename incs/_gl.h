@@ -1,5 +1,5 @@
-#ifndef _GL_H
-# define _GL_H
+#ifndef GL_H
+# define GL_H
 
 #define GLFW_INCLUDE_GLCOREARB
 #define GLFW_INCLUDE_GLEXT

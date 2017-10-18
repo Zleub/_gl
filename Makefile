@@ -11,40 +11,70 @@ SRC = \
 	gl/image.c \
 	ps/_ps.c \
 	cl/compute.c \
-	cl/kernel.c
+	cl/kernel.c \
+		\
+	gl/shell_colors.c
 
 OBJ = $(SRC:.c=.o)
 
 CC = clang
-CFLAGS = -O3 -Wall -Werror -Wextra -Iincs -Ilibs/glfw/include/GLFW
-LDFLAGS = -Llibs/glfw/src -lglfw3 -framework Cocoa -framework OpenGL -framework OpenCL -framework IOKit -framework CoreVideo
+CFLAGS = \
+	-O3 \
+	-Wall \
+	-Werror \
+	-Wextra \
+	-Iincs \
+	-Ilibs/glfw/include/GLFW \
+	-Ilibs/libft/inc
+
+LDFLAGS = \
+	-Llibs/libft -lft \
+	-Llibs/glfw/src -lglfw3 \
+	-framework Cocoa \
+	-framework OpenGL \
+	-framework OpenCL \
+	-framework IOKit \
+	-framework CoreVideo
+
 GLFW = libs/glfw/src/libglfw3.a
+LIBFT = libs/libft/libft.a
 
 TESTS = $(shell find ./demo -name "[^.]*.c")
 
-all: $(GLFW) $(NAME) _gl test
+all: gl/shell_colors.h $(LIBFT) $(GLFW) $(NAME) test
+
+%.c: %.c4
+	m4 $< > $@
+
+%.h: %.h4
+	m4 $< > incs/$(basename $(notdir $@)).h
 
 $(NAME): $(OBJ)
 	ar rc lib_gl.a $^
 	ranlib lib_gl.a
 
-libs/glfw/src/libglfw3.a:
+$(GLFW):
 	(cd libs/glfw ; cmake . ; make) ;
+
+$(LIBFT):
+	(cd libs/libft ; make) ;
 
 clean:
 	rm -rf $(OBJ)
 	(cd libs/glfw ; cmake . ; make clean) ;
+	(cd libs/libft ; make clean) ;
 
 fclean: clean
 	rm -rf $(NAME)
 	rm -rf $(subst .c,,$(notdir $(TESTS)))
 	rm -rf $(subst .c,_temoin,$(notdir $(TESTS)))
+	(cd libs/libft ; make fclean) ;
 
 re: fclean all test
 
 test: $(OBJ)
 	$(foreach file,$(TESTS), \
-		$(CC) -lmlx -framework OpenGL -framework AppKit -o $(basename $(notdir $(file)))_temoin $(file); \
+		$(CC) -Llibs/libft -lft -Ilibs/libft/inc -lmlx -framework OpenGL -framework AppKit -o $(basename $(notdir $(file)))_temoin $(file); \
 		$(CC) -D _GL $(CFLAGS) $(LDFLAGS) -o $(basename $(notdir $(file))) -L. -l_gl $(file); \
 	)
 

@@ -1,3 +1,6 @@
 [submodule "glfw"]
     path = libs/glfw
     url = https://github.com/glfw/glfw.git
+[submodule "libft"]
+    path = libs/libft
+    url = https://github.com/Zleub/libft.git

@@ -1,4 +1,4 @@
-include(gl/colors.m4)
+include(colors.m4)
 
 define(color_interface,
 char * $1(const char * s) {
@@ -19,6 +19,6 @@ char * $1(const char * s) {
 define(`allColors', `ifelse(`$#', `1', `color_interface($1, $#)', `color_interface($1, $#)
 allColors(shift($@))')')
 
-#include "shell_colors.h"
+#include "colors.h"
 
 allColors(colorList)

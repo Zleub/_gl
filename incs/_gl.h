@@ -13,17 +13,20 @@
 #include <limits.h>
 #include <math.h>
 
-typedef int		t_vec2i __attribute__((ext_vector_type(2)));
-typedef float	t_vec2f __attribute__((ext_vector_type(2)));
-typedef double	t_vec2d __attribute__((ext_vector_type(2)));
+typedef int				t_vec2i __attribute__((ext_vector_type(2)));
+typedef unsigned int	t_vec2u __attribute__((ext_vector_type(2)));
+typedef float			t_vec2f __attribute__((ext_vector_type(2)));
+typedef double			t_vec2d __attribute__((ext_vector_type(2)));
 
-typedef int		t_vec3i __attribute__((ext_vector_type(3)));
-typedef float	t_vec3f __attribute__((ext_vector_type(3)));
-typedef double	t_vec3d __attribute__((ext_vector_type(3)));
+typedef int				t_vec3i __attribute__((ext_vector_type(3)));
+typedef unsigned int	t_vec3u __attribute__((ext_vector_type(3)));
+typedef float			t_vec3f __attribute__((ext_vector_type(3)));
+typedef double			t_vec3d __attribute__((ext_vector_type(3)));
 
-typedef int		t_vec4i __attribute__((ext_vector_type(4)));
-typedef float	t_vec4f __attribute__((ext_vector_type(4)));
-typedef double	t_vec4d __attribute__((ext_vector_type(4)));
+typedef int				t_vec4i __attribute__((ext_vector_type(4)));
+typedef unsigned int	t_vec4u __attribute__((ext_vector_type(4)));
+typedef float			t_vec4f __attribute__((ext_vector_type(4)));
+typedef double			t_vec4d __attribute__((ext_vector_type(4)));
 
 typedef struct s_mlx_context t_mlx_context ;
 typedef struct s_window t_window ;

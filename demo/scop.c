@@ -5,7 +5,8 @@
 #include <libft.h>
 
 #ifdef _GL
-# include <shell_colors.h>
+# include <_gl.h>
+# include <colors.h>
 #endif
 
 char *keywords[] = {
@@ -59,9 +60,16 @@ int main(int argc, char const *argv[])
 		#endif
 
 		char *s;
+		struct {
+			t_vec4d *vertices;
+			unsigned int count;
+		} vertices = {
+			malloc(1024 * sizeof(t_vec4d)), 0
+		};
+
 		while ( get_next_line(fd, &s) )
 		{
-			test(s);
+			test(s, &vertices);
 			free(s);
 		}
 	}

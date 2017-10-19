@@ -11,9 +11,7 @@ SRC = \
 	gl/image.c \
 	ps/_ps.c \
 	cl/compute.c \
-	cl/kernel.c \
-		\
-	gl/shell_colors.c
+	cl/kernel.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -25,7 +23,8 @@ CFLAGS = \
 	-Wextra \
 	-Iincs \
 	-Ilibs/glfw/include/GLFW \
-	-Ilibs/libft/inc
+	-Ilibs/libft/inc \
+	-Icolors
 
 LDFLAGS = \
 	-Llibs/libft -lft \
@@ -38,16 +37,11 @@ LDFLAGS = \
 
 GLFW = libs/glfw/src/libglfw3.a
 LIBFT = libs/libft/libft.a
+COLORS = colors/libcolors.a
 
 TESTS = $(shell find ./demo -name "[^.]*.c")
 
-all: gl/shell_colors.h $(LIBFT) $(GLFW) $(NAME) test
-
-%.c: %.c4
-	m4 $< > $@
-
-%.h: %.h4
-	m4 $< > incs/$(basename $(notdir $@)).h
+all: $(LIBFT) $(COLORS) $(GLFW) $(NAME) test
 
 $(NAME): $(OBJ)
 	ar rc lib_gl.a $^
@@ -58,6 +52,9 @@ $(GLFW):
 
 $(LIBFT):
 	(cd libs/libft ; make) ;
+
+$(COLORS):
+	(cd colors ; make) ;
 
 clean:
 	rm -rf $(OBJ)

@@ -24,10 +24,11 @@ CFLAGS = \
 	-Iincs \
 	-Ilibs/glfw/include/GLFW \
 	-Ilibs/libft/inc \
-	-Icolors
+	-Ilibs/colors
 
 LDFLAGS = \
 	-Llibs/libft -lft \
+	-Llibs/colors -lcolors \
 	-Llibs/glfw/src -lglfw3 \
 	-framework Cocoa \
 	-framework OpenGL \
@@ -37,11 +38,12 @@ LDFLAGS = \
 
 GLFW = libs/glfw/src/libglfw3.a
 LIBFT = libs/libft/libft.a
-COLORS = colors/libcolors.a
+COLORS = libs/colors/libcolors.a
 
+CASES = $(shell find ./cases -name "[^.]*.c")
 TESTS = $(shell find ./demo -name "[^.]*.c")
 
-all: $(LIBFT) $(COLORS) $(GLFW) $(NAME) test
+all: $(LIBFT) $(COLORS) $(GLFW) $(NAME) test cases
 
 $(NAME): $(OBJ)
 	ar rc lib_gl.a $^
@@ -54,7 +56,7 @@ $(LIBFT):
 	(cd libs/libft ; make) ;
 
 $(COLORS):
-	(cd colors ; make) ;
+	(cd libs/colors ; make) ;
 
 clean:
 	rm -rf $(OBJ)
@@ -75,4 +77,9 @@ test: $(OBJ)
 		$(CC) -D _GL $(CFLAGS) $(LDFLAGS) -o $(basename $(notdir $(file))) -L. -l_gl $(file); \
 	)
 
-.PHONY: all $(NAME) _gl clean fclean re test run kill
+cases: $(OBJ)
+	$(foreach file,$(CASES), \
+		$(CC) -D _GL $(CFLAGS) $(LDFLAGS) -o $(basename $(notdir $(file))) -L. -l_gl $(file); \
+	)
+
+.PHONY: all $(NAME) _gl clean fclean re test run kill cases $(COLORS)

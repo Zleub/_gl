@@ -14,4 +14,7 @@ allColors(shift($@))')')
 
 allColors(colorList)
 
+typedef char *(*t_color)(const char *);
+extern t_color colors[];
+
 #endif

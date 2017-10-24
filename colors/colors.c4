@@ -19,6 +19,14 @@ char * $1(const char * s) {
 define(`allColors', `ifelse(`$#', `1', `color_interface($1, $#)', `color_interface($1, $#)
 allColors(shift($@))')')
 
+define(`color_array', `$1,')
+define(`arrayColors', `ifelse(`$#', `1', `color_array($1, $#)', `color_array($1, $#)
+arrayColors(shift($@))')')
+
 #include "colors.h"
 
 allColors(colorList)
+
+t_color colors[] = {
+	arrayColors(colorList)
+};

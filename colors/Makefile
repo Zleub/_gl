@@ -29,3 +29,5 @@ fclean:
 	rm -rf $(NAME) $(OBJ) colors.h
 
 re: fclean all
+
+.PHONY: all $(NAME) clean fclean re

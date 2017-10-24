@@ -8,9 +8,9 @@
 
 
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
 
 char * black(const char * s);
 char * maroon(const char * s);
@@ -268,5 +268,8 @@ char * grey82(const char * s);
 char * grey85(const char * s);
 char * grey89(const char * s);
 char * grey93(const char * s);
+
+typedef char *(*t_color)(const char *);
+extern t_color colors[];
 
 #endif

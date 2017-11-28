@@ -22,10 +22,11 @@ int main()
 {
 	mlx = mlx_init();
 	window[0] = mlx_new_window(mlx, 800, 600, "Hello1");
-	// window[1] = mlx_new_window(mlx, 800, 600, "Hello2");
+	window[1] = mlx_new_window(mlx, 800, 600, "Hello2");
 	image[0] = mlx_new_image(mlx, 100, 100);
 	image[1] = mlx_new_image(mlx, 100, 100);
 	image[2] = mlx_new_image(mlx, 100, 100);
+
 	struct {
 		int bits_per_pixel;
 		int size_line;

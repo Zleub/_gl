@@ -28,10 +28,10 @@ void	switch_mlx_mode(int key)
 {
 	(void)key;
 
-	if (g_mlx_context.active_window->r.mode == MONO)
-		g_mlx_context.active_window->r.mode = MULTIPLE;
+	if (g_context.active_window->r.mode == MONO)
+		g_context.active_window->r.mode = MULTIPLE;
 	else
-		g_mlx_context.active_window->r.mode = MONO;
+		g_context.active_window->r.mode = MONO;
 
 }
 
@@ -41,7 +41,7 @@ void	switch_mlx_mode(int key)
 void	create_window(int key)
 {
 	(void)key;
-	new_window(&g_mlx_context, g_mlx_context.vidmode_size.width, g_mlx_context.vidmode_size.height, "test");
+	new_window(&g_context, g_context.vidmode_size.x, g_context.vidmode_size.y, "test");
 }
 
 /**
@@ -106,14 +106,22 @@ void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
  */
 void	destroy_callback(GLFWwindow *window)
 {
+	struct s_window_list *p;
 	struct s_window_list *np;
 
 	(void)window;
 	printf("GLFW destroy callback\n");
-	STAILQ_FOREACH(np, &g_mlx_context.w_head, next) {
-		if (np->w.w == window && g_callback.mlxwindowclose)
-			g_callback.mlxwindowclose(&g_mlx_context, &np->w);
+	STAILQ_FOREACH(np, &g_context.w_head, next) {
+		if (np->w.w == window && g_callback.mlxwindowclose) {
+			g_callback.mlxwindowclose(&g_context, &np->w);
+		}
+		if (np->w.w == window) {
+			p = np;
+			glfwDestroyWindow(np->w.w);
+		}
 	}
+	STAILQ_REMOVE(&g_context.w_head, p, s_window_list, next);
+	free(p);
 }
 
 /**
@@ -128,9 +136,9 @@ void	focus_test(GLFWwindow *window, int action)
 
 	(void)window;
 	printf("GLFW focus callback\n");
-	STAILQ_FOREACH(np, &g_mlx_context.w_head, next) {
+	STAILQ_FOREACH(np, &g_context.w_head, next) {
 		if (np->w.w == window)
-			g_mlx_context.active_window = &np->w;
+			g_context.active_window = &np->w;
 	}
 
 }
@@ -146,16 +154,16 @@ void	resize_callback(GLFWwindow *window, int width, int height)
 	(void)height;
 	printf("size: %d, %d\n", width, height);
 	printf("size ratio: %f, %f\n",
-		(double)width / (double)g_mlx_context.screen_size.width,
-		(double)height / (double)g_mlx_context.screen_size.height
+		(double)width / (double)g_context.screen_size.x,
+		(double)height / (double)g_context.screen_size.y
 	);
 
 	int x, y;
 	glfwGetWindowPos(window, &x, &y);
 	printf("pos: %d, %d\n", x, y);
 	printf("pos ratio: %f, %f\n",
-		(double)x / (double)g_mlx_context.screen_size.width,
-		(double)y / (double)g_mlx_context.screen_size.height
+		(double)x / (double)g_context.screen_size.x,
+		(double)y / (double)g_context.screen_size.y
 	);
 
 }

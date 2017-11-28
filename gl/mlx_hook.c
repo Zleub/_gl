@@ -18,7 +18,7 @@ int		mouse_hook(t_window *window, int (*f)(), void *param )
  * The loop_callback setter
  * \todo Handle param
  */
-void	loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param )
+void	loop_hook(t_context *mlx_context, int (*f)(), void *param )
 {
 	(void)mlx_context;
 	(void)param;

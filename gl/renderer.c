@@ -128,7 +128,7 @@ void			assign_shader(t_renderer *r, char *v_path, char *f_path)
 }
 
 extern float cam_w;
-extern struct s_mlx_context g_mlx_context;
+extern struct s_context g_context;
 
 /**
  * The basic render function.
@@ -140,7 +140,7 @@ int				render(t_window *window)
 	{
 		glfwMakeContextCurrent(0);
 		glfwDestroyWindow(window->w);
-		STAILQ_REMOVE(&g_mlx_context.w_head, (t_window_list*)window, s_window_list, next);
+		STAILQ_REMOVE(&g_context.w_head, (t_window_list*)window, s_window_list, next);
 		free(window);
 		window = 0;
 	}
@@ -167,5 +167,5 @@ int				render(t_window *window)
 		glfwMakeContextCurrent(0);
 	}
 
-	return (g_mlx_context.window_nbr);
+	return (g_context.window_nbr);
 }

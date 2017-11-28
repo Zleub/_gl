@@ -3,17 +3,17 @@
 #include <sys/time.h>
 
 /**
- * Default #t_mlx_context value
+ * Default #t_context value
  */
-t_mlx_context g_mlx_context = {
+t_context g_context = {
 	MONO,
 
 	{ 0, 0 },
 	{ 0, 0 },
 
 	0,
-	STAILQ_HEAD_INITIALIZER(g_mlx_context.w_head),
-	STAILQ_HEAD_INITIALIZER(g_mlx_context.i_head),
+	STAILQ_HEAD_INITIALIZER(g_context.w_head),
+	STAILQ_HEAD_INITIALIZER(g_context.i_head),
 	NULL
 };
 
@@ -72,24 +72,24 @@ struct {
 void	*init(void)
 {
 	if (g_callback.initearly)
-		g_callback.initearly(&g_mlx_context);
+		g_callback.initearly(&g_context);
 
-	STAILQ_INIT(&g_mlx_context.w_head);
-	STAILQ_INIT(&g_mlx_context.i_head);
+	STAILQ_INIT(&g_context.w_head);
+	STAILQ_INIT(&g_context.i_head);
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
 
 	if (g_callback.initlate)
-		g_callback.initlate(&g_mlx_context);
+		g_callback.initlate(&g_context);
 
-	return (&g_mlx_context);
+	return (&g_context);
 }
 
 /**
  * Global _gl loop. Render each user's window.
  * Calls #t_callback.earlyloop, #t_callback.loop, #t_callback.lateloop
  */
-int loop(t_mlx_context *mc)
+int loop(t_context *mc)
 {
 	static double dt;
 	static double time;
@@ -111,7 +111,7 @@ int loop(t_mlx_context *mc)
 			if (g_callback.loop) {
 				g_callback.loop((void*)(&time));
 			}
-		}
+		}			
 
 		glfwPollEvents();
 
@@ -119,6 +119,8 @@ int loop(t_mlx_context *mc)
 		timersub(&tval_after, &tval_before, &tval_result);
 		dt = tval_result.tv_sec * 1000000 + tval_result.tv_usec;
 		time += dt;
+
+		printf("late update\n");
 	}
 
 	if (g_callback.lateloop)

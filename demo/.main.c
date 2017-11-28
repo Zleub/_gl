@@ -27,7 +27,7 @@ const GLFWvidmode * vidmodes ;
 /**
  * \todo This ressource should not be required
  */
-extern t_mlx_context g_mlx_context;
+extern t_context g_context;
 /**
  * \todo This ressource should not be required
  */
@@ -36,7 +36,7 @@ extern t_callback g_callback;
 /**
  * Userland #init
  */
-void		windows_init_late(struct s_mlx_context *mc)
+void		windows_init_late(struct s_context *mc)
 {
 	int count = 0;
 	vidmodes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
@@ -82,12 +82,12 @@ int loop_callback(void *param)
 	time += dti;
 
 	// printf("%d\n", time);
-	mlx_pixel_put(&g_mlx_context, &STAILQ_FIRST(&g_mlx_context.w_head)->w, dti % 10, dti % 10, time * 127);
+	mlx_pixel_put(&g_context, &STAILQ_FIRST(&g_context.w_head)->w, dti % 10, dti % 10, time * 127);
 	// if (dti == 10) {
-	// 	mlx_clear_window(&g_mlx_context, &STAILQ_FIRST(&g_mlx_context.w_head)->w);
+	// 	mlx_clear_window(&g_context, &STAILQ_FIRST(&g_context.w_head)->w);
 	// }
 	// else if (dti == 11) {
-		// void *img = mlx_new_image(&g_mlx_context, 10, 10);
+		// void *img = mlx_new_image(&g_context, 10, 10);
 		// struct {
 		// 	int bits_per_pixel;
 		// 	int size_line;

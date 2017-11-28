@@ -27,7 +27,7 @@ static t_vec3f base_textures[4] = {
 /**
  * Create a new window in respect of MLX's windows
  */
-t_window	*new_window(t_mlx_context *mlx_context, int size_x, int size_y, char *title)
+t_window	*new_window(t_context *mlx_context, int size_x, int size_y, char *title)
 {
 	t_window_list	*nw;
 
@@ -74,7 +74,7 @@ t_window	*new_window(t_mlx_context *mlx_context, int size_x, int size_y, char *t
  * \todo Need to be reworked
  * Clears a #t_window
  */
-int		clear_window(t_mlx_context *mlx_context, t_window *window)
+int		clear_window(t_context *mlx_context, t_window *window)
 {
 	(void)mlx_context;
 
@@ -106,7 +106,7 @@ int		clear_window(t_mlx_context *mlx_context, t_window *window)
  * \todo Need to be reworked
  * Put a pixel into a #t_window in respect to MLX's
  */
-int		pixel_put(t_mlx_context *mlx_context, t_window *window, int x, int y, int color)
+int		pixel_put(t_context *mlx_context, t_window *window, int x, int y, int color)
 {
 	(void)mlx_context;
 

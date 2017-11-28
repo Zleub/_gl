@@ -4,7 +4,7 @@
 /**
  * Creates a new #t_image based on the MLX image's format.
  */
-void		*new_image(t_mlx_context *mlx_context, int width, int height)
+void		*new_image(t_context *mlx_context, int width, int height)
 {
 	t_image *ni;
 
@@ -32,7 +32,7 @@ char	*get_data_addr(t_image *image, int *bits_per_pixel, int *size_line, int *en
 /**
  * Put a #t_image to a #t_window.
  */
-int		put_image_to_window(t_mlx_context *mlx_context, t_window *window, t_image *image, int x, int y)
+int		put_image_to_window(t_context *mlx_context, t_window *window, t_image *image, int x, int y)
 {
 	(void)mlx_context;
 

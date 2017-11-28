@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-#include <_gl.h>
-#include <_cl.h>
-
-#include <OpenCL/cl_gl_ext.h>
-#include <OpenGL/CGLDevice.h>
-#include <OpenGL/CGLCurrent.h>
+// #include <_gl.h>
+// #include <_cl.h>
+//
+// #include <OpenCL/cl_gl_ext.h>
+// #include <OpenGL/CGLDevice.h>
+// #include <OpenGL/CGLCurrent.h>
 
 #define KERNELS_NUMBER 2
 // static char *k_names[KERNELS_NUMBER] = {
@@ -21,8 +21,8 @@
 
 #define PARAM_NUMBER 7
 
-extern t_vec3f mouse ;
-float cam_w;
+// extern t_vec3f mouse ;
+// float cam_w;
 
 // void _particules(t_window *window)
 // {

@@ -1,17 +1,18 @@
 #ifndef GL_H
 # define GL_H
 
-#define GLFW_INCLUDE_GLCOREARB
-#define GLFW_INCLUDE_GLEXT
-#include <glfw3.h>
+# define GLFW_INCLUDE_GLCOREARB
+# define GLFW_INCLUDE_GLEXT
+# include <glfw3.h>
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <string.h>
+# include <fcntl.h>
 
-#include <limits.h>
-#include <math.h>
+# include <limits.h>
+# include <math.h>
+# include <sys/queue.h>
 
 typedef int				t_vec2i __attribute__((ext_vector_type(2)));
 typedef unsigned int	t_vec2u __attribute__((ext_vector_type(2)));
@@ -28,21 +29,36 @@ typedef unsigned int	t_vec4u __attribute__((ext_vector_type(4)));
 typedef float			t_vec4f __attribute__((ext_vector_type(4)));
 typedef double			t_vec4d __attribute__((ext_vector_type(4)));
 
-typedef struct s_mlx_context t_mlx_context ;
+// typedef struct s_mlx_context t_mlx_context ;
+typedef struct s_context t_context;
 typedef struct s_window t_window ;
 typedef struct s_image_list t_image ;
 
-typedef void (*MLXinitearlyfun)(t_mlx_context *);
-typedef void (*MLXinitlatefun)(t_mlx_context *);
+typedef void (*MLXinitearlyfun)(t_context *);
+typedef void (*MLXinitlatefun)(t_context *);
 
-typedef void (*MLXwindowclosefun)(t_mlx_context *, t_window *);
-typedef void (*MLXwindowresize)(t_mlx_context *, t_window *);
+typedef void (*MLXwindowclosefun)(t_context *, t_window *);
+typedef void (*MLXwindowresize)(t_context *, t_window *);
 
-typedef void (*MLXloopearlyfun)(t_mlx_context *);
-typedef void (*MLXlooplatefun)(t_mlx_context *);
+typedef void (*MLXloopearlyfun)(t_context *);
+typedef void (*MLXlooplatefun)(t_context *);
 
 typedef int (*MLXloopfun)(void *param) ;
 typedef int (*MLXmousefun)(int button,int x,int y,void *param);
+
+typedef struct s_context t_context;
+struct s_context
+{
+	unsigned int							mode;
+
+	t_vec2u									screen_size;
+	t_vec2u									vidmode_size;
+
+	unsigned int							window_nbr;
+	STAILQ_HEAD(window_head, s_window_list)	w_head;
+	STAILQ_HEAD(image_head, s_image_list)	i_head;
+	t_window								*active_window;
+} ;
 
 typedef struct s_callback	t_callback;
 struct						s_callback {
@@ -77,45 +93,6 @@ struct						s_callback {
 	MLXwindowresize			mlxwindowresize;
 
 	MLXmousefun				mlxmousebutton;
-};
-
-typedef struct s_fps	t_fps;
-struct					s_fps {
-	char				str[32];
-	double				frames;
-	double				t;
-	double				t1;
-	double				t2;
-	float				dt;
-};
-
-enum e_window_size {
-	/**  640,  480 */ SMALLEST,
-	/**  800,  600 */ SMALLEST_PLUS,
-	/** 1024,  576 */ SMALLER,
-	/** 1024,  768 */ SMALLER_PLUS,
-	/** 1280,  720 */ SMALL,
-	/** 1344,  756 */ SMALL_PLUS,
-	/** 1280,  960 */ LARGE,
-	/** 1344, 1008 */ LARGE_PLUS,
-	/** 1600,  900 */ LARGER,
-	/** 1600, 1200 */ LARGER_PLUS,
-	/** 2048, 1152 */ LARGEST,
-	/** 2560, 1440 */ FULLSCREEN,
-	/** #window_size len */ WSLEN
-};
-
-enum e_drawing_mode {
-	MLX, // each window its texture
-	GL,  // free pleasure
-	DMLEN
-};
-
-enum e_mlx_mode {
-	MONO, // every window draw the first texture
-	MULTIPLE, // every window can draw the first texture and its own
-	INDEPENDANT, // every window draw its own texture
-	RMLEN
 };
 
 typedef struct s_renderer	t_renderer;
@@ -166,18 +143,57 @@ struct					s_window {
 	unsigned int		flush;
 };
 
+typedef struct s_fps	t_fps;
+struct					s_fps {
+	char				str[32];
+	double				frames;
+	double				t;
+	double				t1;
+	double				t2;
+	float				dt;
+};
+
+enum e_window_size {
+	/**  640,  480 */ SMALLEST,
+	/**  800,  600 */ SMALLEST_PLUS,
+	/** 1024,  576 */ SMALLER,
+	/** 1024,  768 */ SMALLER_PLUS,
+	/** 1280,  720 */ SMALL,
+	/** 1344,  756 */ SMALL_PLUS,
+	/** 1280,  960 */ LARGE,
+	/** 1344, 1008 */ LARGE_PLUS,
+	/** 1600,  900 */ LARGER,
+	/** 1600, 1200 */ LARGER_PLUS,
+	/** 2048, 1152 */ LARGEST,
+	/** 2560, 1440 */ FULLSCREEN,
+	/** #window_size len */ WSLEN
+};
+
+enum e_drawing_mode {
+	MLX, // each window its texture
+	GL,  // free pleasure
+	DMLEN
+};
+
+enum e_mlx_mode {
+	MONO, // every window draw the first texture
+	MULTIPLE, // every window can draw the first texture and its own
+	INDEPENDANT, // every window draw its own texture
+	RMLEN
+};
+
 #define PARTICULE_WIDTH 1024 // * 2
 #define PARTICULE_HEIGHT 1024 // * 2
 #define VNBR (PARTICULE_WIDTH * PARTICULE_HEIGHT)
 
 extern t_callback g_callback ;
-extern t_mlx_context g_mlx_context ;
+extern t_context g_context ;
 
 // window.c
 void			*init(void);
-t_window		*new_window(t_mlx_context *mlx_context, int size_x, int size_y, char *title);
-int				clear_window(t_mlx_context *mlx_context, t_window *window);
-int				pixel_put(t_mlx_context *mlx_context, t_window *window, int x, int y, int color);
+t_window		*new_window(t_context *mlx_context, int size_x, int size_y, char *title);
+int				clear_window(t_context *mlx_context, t_window *window);
+int				pixel_put(t_context *mlx_context, t_window *window, int x, int y, int color);
 void			apply_callback(t_window *window, t_callback *callback);
 
 // vertices.c
@@ -211,7 +227,7 @@ void			pos_callback(GLFWwindow*window, int x, int y);
 
 // mlx_hook.c
 int				mouse_hook(t_window *window, int (*f)(), void *param );
-void			loop_hook(t_mlx_context *mlx_context, int (*f)(), void *param);
+void			loop_hook(t_context *mlx_context, int (*f)(), void *param);
 
 // util.c
 void			version(void);
@@ -219,12 +235,12 @@ void			init_fps(t_fps *fps);
 void			run_fps(t_window *window, t_fps *fps);
 
 // image.c
-void			*new_image(t_mlx_context *mlx_context, int width, int height);
+void			*new_image(t_context *mlx_context, int width, int height);
 char			*get_data_addr(t_image *mlx_context, int *bits_per_pixel, int *size_line, int *endian);
-int				put_image_to_window(t_mlx_context *mlx_context, t_window *window, t_image *image, int x, int y);
+int				put_image_to_window(t_context *mlx_context, t_window *window, t_image *image, int x, int y);
 
 // core.c
-int				loop(t_mlx_context *mc);
+int				loop(t_context *mc);
 void			hook(t_window *window, int x_event, int x_mask, int (*f)(), void * param);
 
 #endif

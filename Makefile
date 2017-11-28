@@ -8,10 +8,10 @@ SRC = \
 	gl/mlx_hook.c \
 	gl/vertices.c \
 	gl/window.c \
-	gl/image.c \
-	ps/_ps.c \
-	cl/compute.c \
-	cl/kernel.c
+	gl/image.c 
+	# ps/_ps.c \
+	# cl/compute.c \
+	# cl/kernel.c
 
 OBJ = $(SRC:.c=.o)
 

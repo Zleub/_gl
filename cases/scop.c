@@ -88,11 +88,11 @@ int main(int argc, char const *argv[])
 		printf("%s: %d\n", maroon(argv[1]), fd);
 
 		char *s;
-		t_vertices vertices = { malloc(1024 * sizeof(t_vec4d)), 0 };
+		// t_vertices vertices = { malloc(1024 * sizeof(t_vec4d)), 0 };
 
 		while ( get_next_line(fd, &s) )
 		{
-			test(s, &vertices);
+			// test(s, &vertices);
 			free(s);
 		}
 	}

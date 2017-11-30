@@ -24,31 +24,28 @@ struct {
 	int y_origin;
 }	_drag;
 
-int _loop()
-{
-	int i = 0;
-	while (i < 2) {
+int _loop(struct {
+	void *param;
+	double time;
+	t_window *window;
+} *param) {
+	#ifdef _GL
 
-		#ifdef _GL
+		struct { int x; int y; } pos;
+		glfwGetWindowPos(param->window->w, &pos.x, &pos.y);
+		glfwGetWindowPos(param->window->w, &pos.x, &pos.y);
 
-			struct { int x; int y; } pos;
-			glfwGetWindowPos(((t_window *)window[i])->w, &pos.x, &pos.y);
+		mlx_clear_window(mlx, param->window);
+		mlx_put_image_to_window(mlx, param->window, image, _drag.x - pos.x, _drag.y - pos.y);
 
-			mlx_clear_window(mlx, window[i]);
-			mlx_put_image_to_window(mlx, window[i], image, _drag.x - pos.x, _drag.y - pos.y);
+	#else
 
-		#else
+		mlx_clear_window(mlx, param->window);
+		mlx_put_image_to_window(mlx, param->window, image, _drag.x, _drag.y);
 
-			mlx_clear_window(mlx, window[i]);
-			mlx_put_image_to_window(mlx, window[i], image, _drag.x, _drag.y);
-
-		#endif
-
-		i += 1;
-	}
+	#endif
 
 	return (0);
-
 }
 
 int drag(int x,int y,void *param)

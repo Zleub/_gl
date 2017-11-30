@@ -143,6 +143,20 @@ struct					s_window {
 	unsigned int		flush;
 };
 
+typedef struct s_window_list t_window_list;
+struct s_window_list {
+	t_window					w;
+	STAILQ_ENTRY(s_window_list)	next;
+};
+
+typedef struct s_image_list t_image;
+struct s_image_list {
+	t_vec2u						size;
+	char						*data;
+	STAILQ_ENTRY(s_image_list)	next;
+};
+
+
 typedef struct s_fps	t_fps;
 struct					s_fps {
 	char				str[32];

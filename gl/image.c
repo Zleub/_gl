@@ -10,8 +10,8 @@ void		*new_image(t_context *mlx_context, int width, int height)
 
 	ni = malloc(sizeof(t_image));
 	bzero(ni, sizeof(t_image));
-	ni->size.width = width;
-	ni->size.height = height;
+	ni->size.x = width;
+	ni->size.y = height;
 	ni->data = malloc(width * height * sizeof(int));
 	bzero(ni->data, width * height * sizeof(int));
 	STAILQ_INSERT_TAIL(&mlx_context->i_head, ni, next);
@@ -24,7 +24,7 @@ void		*new_image(t_context *mlx_context, int width, int height)
 char	*get_data_addr(t_image *image, int *bits_per_pixel, int *size_line, int *endian)
 {
 	*bits_per_pixel = sizeof(int) * 8;
-	*size_line = image->size.width * sizeof(int);
+	*size_line = image->size.x * sizeof(int);
 	*endian = 0;
 	return (image->data);
 }
@@ -46,8 +46,8 @@ int		put_image_to_window(t_context *mlx_context, t_window *window, t_image *imag
 		0,
 		x,
 		y,
-		image->size.width,
-		image->size.height,
+		image->size.x,
+		image->size.y,
 		GL_BGRA,
 		GL_UNSIGNED_BYTE,
 		image->data

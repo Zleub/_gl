@@ -106,8 +106,8 @@ void	key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
  */
 void	destroy_callback(GLFWwindow *window)
 {
-	struct s_window_list *p;
-	struct s_window_list *np;
+	struct s_window_list *p = NULL;
+	struct s_window_list *np = NULL;
 
 	(void)window;
 	printf("GLFW destroy callback\n");
@@ -115,13 +115,19 @@ void	destroy_callback(GLFWwindow *window)
 		if (np->w.w == window && g_callback.mlxwindowclose) {
 			g_callback.mlxwindowclose(&g_context, &np->w);
 		}
-		if (np->w.w == window) {
+		if (np->w.w == window && glfwWindowShouldClose(np->w.w)) {
 			p = np;
 			glfwDestroyWindow(np->w.w);
+			g_context.window_nbr -= 1;
 		}
 	}
-	STAILQ_REMOVE(&g_context.w_head, p, s_window_list, next);
-	free(p);
+	if (p) {
+		if (STAILQ_FIRST(&g_context.w_head) == p)
+			STAILQ_REMOVE_HEAD(&g_context.w_head, next);
+		else
+			STAILQ_REMOVE(&g_context.w_head, p, s_window_list, next);
+		free(p);
+	}
 }
 
 /**

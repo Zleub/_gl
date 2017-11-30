@@ -10,18 +10,7 @@ struct s_size {
 	int		height;
 };
 
-typedef struct s_window_list t_window_list;
-struct s_window_list {
-	t_window					w;
-	STAILQ_ENTRY(s_window_list)	next;
-};
-
-typedef struct s_image_list t_image;
-struct s_image_list {
-	struct s_size				size;
-	char						*data;
-	STAILQ_ENTRY(s_image_list)	next;
-};
+// extern t_callback g_callback;
 
 /**
  * \todo merge mlx_context with renderer

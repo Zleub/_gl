@@ -105,16 +105,31 @@ int loop(t_context *mc)
 		gettimeofday(&tval_before, NULL);
 		STAILQ_FOREACH(np, &mc->w_head, next) {
 
+			printf("early update 1\n");
 			if (!render(&np->w))
 				break ;
 
+			printf("early update 2 %p\n", g_callback.loop);
 			if (g_callback.loop) {
-				g_callback.loop((void*)(&time));
+				g_callback.loop(//(void*)(&time), np
+					&((struct {
+						void *param;
+						double time;
+						void *window;
+					}){
+						.param = NULL,
+						.time = time,
+						.window = &(np->w)
+					})
+				);
 			}
-		}			
+			printf("early update 3\n");
+		}
+		printf("early update 4\n");
 
 		glfwPollEvents();
 
+		printf("early update 5\n");
 		gettimeofday(&tval_after, NULL);
 		timersub(&tval_after, &tval_before, &tval_result);
 		dt = tval_result.tv_sec * 1000000 + tval_result.tv_usec;

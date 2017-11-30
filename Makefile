@@ -8,7 +8,7 @@ SRC = \
 	gl/mlx_hook.c \
 	gl/vertices.c \
 	gl/window.c \
-	gl/image.c 
+	gl/image.c
 	# ps/_ps.c \
 	# cl/compute.c \
 	# cl/kernel.c
@@ -72,13 +72,16 @@ fclean: clean
 re: fclean all test
 
 test: $(OBJ)
-	$(foreach file,$(TESTS), \
+	@$(foreach file,$(TESTS), \
+		echo $(CC) -Llibs/libft -lft -Ilibs/libft/inc -lmlx -framework OpenGL -framework AppKit -o $(basename $(notdir $(file)))_temoin $(file); \
 		$(CC) -Llibs/libft -lft -Ilibs/libft/inc -lmlx -framework OpenGL -framework AppKit -o $(basename $(notdir $(file)))_temoin $(file); \
+		echo $(CC) -D _GL $(CFLAGS) $(LDFLAGS) -o $(basename $(notdir $(file))) -L. -l_gl $(file); \
 		$(CC) -D _GL $(CFLAGS) $(LDFLAGS) -o $(basename $(notdir $(file))) -L. -l_gl $(file); \
 	)
 
 cases: $(OBJ)
-	$(foreach file,$(CASES), \
+	@$(foreach file,$(CASES), \
+		echo $(CC) -D _GL $(CFLAGS) $(LDFLAGS) -o $(basename $(notdir $(file))) -L. -l_gl $(file); \
 		$(CC) -D _GL $(CFLAGS) $(LDFLAGS) -o $(basename $(notdir $(file))) -L. -l_gl $(file); \
 	)
 

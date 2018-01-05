@@ -106,8 +106,9 @@ int loop(t_context *mc)
 		STAILQ_FOREACH(np, &mc->w_head, next) {
 
 			printf("early update 1\n");
-			if (!render(&np->w))
+			if (!render(&np->w)) {
 				break ;
+			}
 
 			printf("early update 2 %p\n", g_callback.loop);
 			if (g_callback.loop) {

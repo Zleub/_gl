@@ -136,16 +136,18 @@ extern struct s_context g_context;
  */
 int				render(t_window *window)
 {
-	if (glfwWindowShouldClose(window->w))
-	{
-		glfwMakeContextCurrent(0);
-		glfwDestroyWindow(window->w);
-		STAILQ_REMOVE(&g_context.w_head, (t_window_list*)window, s_window_list, next);
-		free(window);
-		window = 0;
-	}
-	else
-	{
+	// if (glfwWindowShouldClose(window->w))
+	// {
+	// 	glfwMakeContextCurrent(0);
+	// 	glfwDestroyWindow(window->w);
+	// 	STAILQ_REMOVE(&g_context.w_head, (t_window_list*)window, s_window_list, next);
+	// 	free(window);
+	// 	window = 0;
+	// 	printf("(render) : glfwWindowShouldClose\n");
+	// 	return (0);
+	// }
+	// else
+	// {
 		glfwMakeContextCurrent(window->w);
 		// if (window->flush > 0) {
 		// 	glClear(GL_COLOR_BUFFER_BIT);
@@ -165,7 +167,7 @@ int				render(t_window *window)
 		glDrawArrays(GL_TRIANGLE_FAN, 0, window->r.vertices_nbr);
 		glfwSwapBuffers(window->w);
 		glfwMakeContextCurrent(0);
-	}
+	// }
 
 	return (g_context.window_nbr);
 }

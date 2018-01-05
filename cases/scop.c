@@ -5,6 +5,7 @@
 #include <libft.h>
 
 #include <_gl.h>
+#include <mlx.h>
 #include <colors.h>
 
 typedef struct s_vertices t_vertices;
@@ -60,7 +61,13 @@ int keywords_len(void)
 	return i;
 }
 
-int test(char *s, t_vertices *v)
+t_vec4d vertice_to_vec4(char *s)
+{
+	printf("%s\n", s);
+	return (t_vec4d){0, 0, 0, 0};
+}
+
+int obj_to_vertices(char *s, t_vertices *v)
 {
 	int i;
 
@@ -72,7 +79,16 @@ int test(char *s, t_vertices *v)
 			break;
 		i += 1;
 	}
-	printf("(%s) -> %s\n", colors[i + 1](s), i == keywords_len() ? "none" : ft_itoa(i));
+	// printf(
+	// 	"(%s) -> %s\n",
+	// 	colors[i + 1](s),
+	// 	i == keywords_len() ? "none" : ft_itoa(i)
+	// );
+
+	if (i != keywords_len())
+	{
+		vertice_to_vec4(s);
+	}
 	return (0);
 }
 
@@ -85,16 +101,19 @@ int main(int argc, char const *argv[])
 			exit(EXIT_FAILURE);
 		}
 
-		printf("%s: %d\n", maroon(argv[1]), fd);
-
 		char *s;
-		// t_vertices vertices = { malloc(1024 * sizeof(t_vec4d)), 0 };
+		t_vertices vertices;
+		bzero(&vertices, sizeof(t_vertices));
 
 		while ( get_next_line(fd, &s) )
 		{
-			// test(s, &vertices);
+			obj_to_vertices(s, &vertices);
 			free(s);
 		}
+
+		void *mlx = mlx_init();
+		mlx_new_window(mlx, 800, 600, "scop");
+		mlx_loop(mlx);
 	}
 	else
 		printf("Usage: ./scop [obj_path]\n");
